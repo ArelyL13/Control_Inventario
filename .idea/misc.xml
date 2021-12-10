@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/content_main.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/fragment_altas_prod.xml" value="0.22447916666666667" />
       </map>
     </option>
   </component>
