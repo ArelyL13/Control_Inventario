@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "583119691939",
+    "firebase_url": "https://control3-85d42-default-rtdb.firebaseio.com",
+    "project_id": "control3-85d42",
+    "storage_bucket": "control3-85d42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583119691939:android:bc2dcec7561db92017df16",
+        "android_client_info": {
+          "package_name": "com.example.control_inventario"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583119691939-256vrdasffqh3du2loq4978lek93292t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAgSAkYMER3SVmBiBbLfvmD7XolnQQU0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583119691939-256vrdasffqh3du2loq4978lek93292t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
