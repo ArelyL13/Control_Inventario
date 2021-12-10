@@ -1,21 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.Productos.Altas.AltasProdFragment">
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="25dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nuevo Producto"
+            android:textColor="@color/orange"
+            android:textSize="30dp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/crearivFoto"
+                android:layout_width="196dp"
+                android:layout_height="170dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_menu_camera"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cardview_default_radius"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/orange"
+                app:endIconMode="clear_text"
+                android:paddingTop="40dp"
+                android:layout_marginTop="60dp"
+                app:helperText="id"
+                app:helperTextEnabled="true"
+                android:hint="id"
+                >
 
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ALetId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                   />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/cardview_default_radius"
+            android:hint="Ingresa el nombre del producto"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/orange"
+            app:endIconMode="clear_text"
+            android:layout_marginTop="60dp"
+            app:helperText="Producto"
+            app:helperTextEnabled="true"
+            android:inputType="none">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/AlTetProductoNom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/cardview_default_radius"
+            android:hint="Ingresa la cantidad"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/orange"
+            app:endIconMode="clear_text"
+            android:layout_marginTop="60dp"
+            app:helperText="Cantidad"
+            app:helperTextEnabled="true"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/AlTetCantidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/cardview_default_radius"
+            android:hint="Ingresa el precio"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/orange"
+            app:endIconMode="clear_text"
+            android:layout_marginTop="60dp"
+            app:helperText="Precio"
+            app:helperTextEnabled="true"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/AlTetPrecio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/ALTbtnGuardar"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Guardar"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
 
 
-</LinearLayout>
+    </LinearLayout>
 
 
 </ScrollView>
