@@ -1,8 +1,10 @@
 package com.example.control_inventario.Objetos;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     private String id;
-    private String usuario;
+    private String correo;
     private String pass;
     private String nombre;
     private String tipo;
@@ -17,7 +19,7 @@ public class Usuario {
 
     public Usuario(String id, String usuario, String pass, String nombre, String tipo, Double latitud, Double longitud, String foto) {
         this.id = id;
-        this.usuario = usuario;
+        this.correo = usuario;
         this.pass = pass;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -28,7 +30,7 @@ public class Usuario {
 
     public Usuario(String id, String usuario, String pass, String nombre, String tipo, String foto) {
         this.id = id;
-        this.usuario = usuario;
+        this.correo = usuario;
         this.pass = pass;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -46,12 +48,12 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getPass() {

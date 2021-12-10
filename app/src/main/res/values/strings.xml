@@ -21,4 +21,10 @@
     <string name="crear">Crear cuenta</string>
     <string name="recuperar">Recuperar Contraseña</string>
     <string name="descripcion_imagen">Contexto de una imagen</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="cambiarFoto">Cambiar Foto</string>
+    <string name="tipo">Tipo</string>
+    <string name="iniciar">Iniciar Sesion</string>
+
+
 </resources>

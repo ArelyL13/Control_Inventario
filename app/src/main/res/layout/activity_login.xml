@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -38,14 +41,14 @@
                 android:textColor="@color/black"/>
 
             <EditText
-                android:id="@+id/REGetcorreo"
+                android:id="@+id/LOGetcorreo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="@string/correo"/>
 
             <EditText
-                android:id="@+id/REGetpass"
+                android:id="@+id/LOGetpass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -59,7 +62,15 @@
                 android:hint="@string/nombre"/>
 
             <Button
-                android:id="@+id/REGbtnRegistrarse"
+                android:id="@+id/LOGbtnIniciar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iniciar"
+                android:layout_gravity="center"
+                android:textSize="25dp"
+                android:backgroundTint="@color/azulM"/>
+            <Button
+                android:id="@+id/LOGbtncrear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/registrarse"
