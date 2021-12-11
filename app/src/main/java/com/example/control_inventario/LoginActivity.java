@@ -77,13 +77,12 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Usuario usuario = snapshot.getValue(Usuario.class);
-                            Intent intent = new Intent(view.getContext(), MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("usuario", usuario);
                             startActivity(intent);
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
                         }
                     });
                 } else {

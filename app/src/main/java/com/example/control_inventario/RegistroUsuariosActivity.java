@@ -40,6 +40,7 @@ import java.io.IOException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class RegistroUsuariosActivity extends AppCompatActivity {
     Button btnRegistrarse,btnFoto;
@@ -80,65 +81,84 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
                             StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
                             StorageReference file_name = folder.child("file"+photoUri.getLastPathSegment());
 
-                            file_name.putFile(photoUri).addOnSuccessListener(taskSnapshot -> file_name.getDownloadUrl()).addOnSuccessListener(uri -> {
 
-                                /**
-                                String imagen = file_name.getDownloadUrl().toString();
-                                Log.d("direccion1",file_name.getDownloadUrl().toString());
-                                Log.d("direccion2",file_name.toString());
-                                Log.d("direccion3",file_name.getActiveDownloadTasks().toString());
-                                Log.d("direccion4",file_name.getPath());
+                            file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                 @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                        Usuario us = new Usuario();
-                                        us.setId(bdMauth.getUid());
-                                        us.setNombre(etNombre.getText().toString().trim());
-                                        us.setCorreo(etCorreo.getText().toString().trim());
-                                        us.setPass(etPass.getText().toString().trim());
-                                        us.setTipo(etTipo.getText().toString().trim());
-                                        us.setFoto(imagen);
-                                        Bundle extras = RegistroUsuariosActivity.this.getIntent().getExtras();
-                                        //String usuario = extras.getString("id_usuario");
-                                        Toast.makeText(RegistroUsuariosActivity.this, us.getFoto(), Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(RegistroUsuariosActivity.this, urlimg, Toast.LENGTH_SHORT).show();
-                                        dbReference.child("Usuario").child(us.getId()).setValue(us);
-                                        Toast.makeText(RegistroUsuariosActivity.this, "Proyecto agregado", Toast.LENGTH_LONG).show();
-                                    **/
+                                    Toast.makeText(RegistroUsuariosActivity.this, "Subiendo", Toast.LENGTH_SHORT).show();
 
-
-
+                                }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+
                                     Toast.makeText(RegistroUsuariosActivity.this, "Error", Toast.LENGTH_SHORT).show();
+
                                 }
                             }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    if ( task.isSuccessful() ) {
-                                        UploadTask.TaskSnapshot downloadUri = null;
-                                        downloadUri = task.getResult();
-                                        Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
+                                    UploadTask.TaskSnapshot downloadUri = null;
+                                    downloadUri = task.getResult();
+                                    Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
+                                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            Toast.makeText(RegistroUsuariosActivity.this, "Subieron Archivos", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(RegistroUsuariosActivity.this,  uri.toString(), Toast.LENGTH_SHORT).show();
+                                            String imagen = uri.toString();
+                                            Usuario us = new Usuario();
+                                            //Log.d("id_us",bdMauth.getUid());
+                                            us.setId(bdMauth.getUid());
+                                            us.setNombre(etNombre.getText().toString().trim());
+                                            us.setCorreo(etCorreo.getText().toString().trim());
+                                            us.setPass(etPass.getText().toString().trim());
+                                            us.setTipo(etTipo.getText().toString().trim());
+                                            us.setFoto(imagen);
+                                            dbReference.child("Usuario").child(us.getId()).setValue(us);
 
-                                         Usuario us = new Usuario();
-                                         us.setId(bdMauth.getUid());
-                                         us.setNombre(etNombre.getText().toString().trim());
-                                         us.setCorreo(etCorreo.getText().toString().trim());
-                                         us.setPass(etPass.getText().toString().trim());
-                                         us.setTipo(etTipo.getText().toString().trim());
-                                         us.setFoto(result.toString());
-
-
-                                         Bundle extras = RegistroUsuariosActivity.this.getIntent().getExtras();
-                                         //String usuario = extras.getString("id_usuario");
-                                         Toast.makeText(RegistroUsuariosActivity.this, us.getFoto(), Toast.LENGTH_SHORT).show();
-                                         Toast.makeText(RegistroUsuariosActivity.this, urlimg, Toast.LENGTH_SHORT).show();
-                                         dbReference.child("Usuario").child(us.getId()).setValue(us);
-                                         Toast.makeText(RegistroUsuariosActivity.this, "Proyecto agregado", Toast.LENGTH_LONG).show();
-
-                                    }
+                                            Intent intent = new Intent(RegistroUsuariosActivity.this,MainActivity.class);
+                                            intent.putExtra("usuario",us);
+                                            startActivity(intent);
+                                        }
+                                    });
                                 }
                             });
 
+                            /**
+                            file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    //Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+                                    /**
+                                    Log.d("rutaImg1",taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+                                    Log.d("rutaImg2",taskSnapshot.getMetadata().getReference().getPath());
+                                    Log.d("rutaImg3",taskSnapshot.getMetadata().getReference().getBucket());
+                                    Log.d("rutaImg4",taskSnapshot.getMetadata().getReference().getPath());
+                                    Log.d("rutaImg5",taskSnapshot.getUploadSessionUri().toString());
+
+                                    Toast.makeText(RegistroUsuariosActivity.this, "Imagen Subida", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistroUsuariosActivity.this, "1"+taskSnapshot.getMetadata().getReference().getDownloadUrl().toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistroUsuariosActivity.this, "2"+taskSnapshot.getMetadata().getReference().getPath(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistroUsuariosActivity.this, "3"+taskSnapshot.getMetadata().getReference().getBucket(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistroUsuariosActivity.this, "4"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_SHORT).show();
+
+
+                                    String imagen = taskSnapshot.getUploadSessionUri().toString();
+                                    Usuario us = new Usuario();
+                                    Log.d("id_us",bdMauth.getUid());
+                                    us.setId(UUID.randomUUID().toString());
+                                    us.setNombre(etNombre.getText().toString().trim());
+                                    us.setCorreo(etCorreo.getText().toString().trim());
+                                    us.setPass(etPass.getText().toString().trim());
+                                    us.setTipo(etTipo.getText().toString().trim());
+                                    us.setFoto(imagen);
+                                    //Log.d("ruta",generatedFilePath);
+                                    dbReference.child("Usuario").child(us.getId()).setValue(us);
+                                }
+                            });
+                            **/
 
 
 
