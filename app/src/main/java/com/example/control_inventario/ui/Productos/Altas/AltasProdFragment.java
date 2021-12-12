@@ -161,6 +161,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                                 if (extras == null){
                                     us = (Usuario)extras.getSerializable("usuario");
                                 }
+                                //crear usuario
                                 p.setId(UUID.randomUUID().toString());
                                 p.setNombre(etNombre.getText().toString());
                                 p.setCantidad(etCantidad.getText().toString());
@@ -169,7 +170,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
 
                                 Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
-
+                                //generar alta
                                 dbReference.child("Producto").child(us.getId()).child(p.getId()).setValue(us);
                                 Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
                             }
