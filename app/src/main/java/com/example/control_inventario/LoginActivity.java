@@ -78,7 +78,9 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Usuario usuario = snapshot.getValue(Usuario.class);
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("usuario", usuario);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("usuario",usuario);
+                            intent.putExtras(bundle);
                             startActivity(intent);
                         }
                         @Override
