@@ -18,79 +18,133 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/bienvenida"
-                android:gravity="center"
-                android:textSize="40dp"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/ingresar_datos"
                 android:gravity="center"
-                android:textSize="40dp"
-                android:layout_marginTop="20dp"
+                android:textSize="30dp"
+                android:layout_marginTop="15dp"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/orange"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/REGivFoto"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    app:srcCompat="@drawable/ic_menu_camera"
-                    android:contentDescription="@string/descripcion"/>
+                    android:contentDescription="@string/descripcion"
+                    app:srcCompat="@drawable/ic_menu_camera" />
+
                 <Button
                     android:id="@+id/REGbtnFoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cambiarFoto"
                     android:layout_gravity="center"
-                    android:textSize="20dp"
-                    />
+                    android:backgroundTint="@color/azulM"
+                    android:text="@string/cambiarFoto"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/REGetcorreo"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="@string/correo"/>
+                android:layout_margin="@dimen/cardview_default_radius"
+                android:layout_marginTop="60dp"
+                android:hint="Ingresa el correo"
+                android:layout_marginVertical="10dp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/orange"
+                app:endIconMode="clear_text"
+                app:helperText="Correo"
+                app:helperTextEnabled="true"
+                tools:ignore="MissingConstraints">
 
-            <EditText
-                android:id="@+id/REGetpass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/pass"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/REGetcorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/REGetnombre"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="@string/nombre"/>
+                android:layout_margin="@dimen/cardview_default_radius"
+                android:layout_marginTop="60dp"
+                android:hint="Ingrese la contraseña"
+                android:layout_marginVertical="10dp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/orange"
+                app:endIconMode="clear_text"
+                app:helperText="Contraseña"
+                app:helperTextEnabled="true"
+                tools:ignore="MissingConstraints">
 
-            <EditText
-                android:id="@+id/REGetTipo"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/REGetpass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="@string/tipo"/>
+                android:layout_margin="@dimen/cardview_default_radius"
+                android:layout_marginTop="60dp"
+                android:hint="Ingrese el nombre"
+                android:layout_marginVertical="10dp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/orange"
+                app:endIconMode="clear_text"
+                app:helperText="Nombre"
+                app:helperTextEnabled="true"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/REGetnombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cardview_default_radius"
+                android:layout_marginTop="60dp"
+                android:hint="Tipo"
+                android:layout_marginVertical="10dp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/orange"
+                app:endIconMode="clear_text"
+                app:helperText="Tipo"
+                app:helperTextEnabled="true"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/REGetTipo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/REGbtnRegistrarse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/registrarse"
+                android:backgroundTint="@color/azulM"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:textSize="25dp"
+
                 />
         </LinearLayout>
     </ScrollView>

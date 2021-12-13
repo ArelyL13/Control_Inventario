@@ -12,14 +12,25 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_Altas"
         android:name="com.example.control_inventario.ui.Productos.Altas.AltasProdFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:label="Altas"
+        tools:layout="@layout/fragment_altas_prod" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_Bajas"
+        android:name="com.example.control_inventario.ui.Productos.Bajas.BajasProdFragment"
+        android:label="Bajas"
+        tools:layout="@layout/fragment_bajas_prod" />
+    <fragment
+        android:id="@+id/nav_Modificaciones"
         android:name="com.example.control_inventario.ui.Productos.Modificaciones.ModificarProdFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:label="Modificaciones"
+        tools:layout="@layout/fragment_modificar_prod" />
+
+    <fragment
+        android:id="@+id/nav_Lista"
+        android:name="com.example.control_inventario.ui.Productos."
+        android:label="Lista"
+        tools:layout="@layout/fragment_modificar_prod" />
 </navigation>

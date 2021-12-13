@@ -11,7 +11,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <!--Login-->
-    <string name="bienvenida">Bienvenido a enseña</string>
+    <string name="bienvenida">Bienvenido a control</string>
     <string name="ingresar_datos">Ingresa tus datos</string>
     <string name="registrarse">Registrarse</string>
     <string name="correo">Correo</string>
