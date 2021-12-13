@@ -1,5 +1,7 @@
 package com.example.control_inventario.ui.Productos.Modificaciones;
 
+import static android.app.Activity.RESULT_OK;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -9,6 +11,8 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -38,6 +42,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +52,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +66,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
 
     private ModificarProdViewModel modViewModel;
     private FragmentModificarProdBinding binding;
-    private Button MoButton;
+    private Button MoButton,btnbuscar;
     private EditText etNombre, etCantidad, etPrecio, etId;
     private ImageView miImagenView;
     private Uri fotoUri;
@@ -68,8 +75,12 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
     public static String currentPhotoPath,img="", tamanio, tipSoft, urgencia;
     public static final int Request_TAKE_PHOTO = 1;
     private ArrayList<Producto> Product = new ArrayList<Producto>();
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+    Producto prod;
 
-    DatabaseReference dbReference;
+
+    DatabaseReference bdReference;
     private ModificarProdViewModel mViewModel;
 
     public static ModificarProdFragment newInstance() {
@@ -97,13 +108,18 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         MoButton.setOnClickListener(this);
         miImagenView.setOnClickListener(this);
 
-        dbReference = FirebaseDatabase.getInstance().getReference();
+
+        bdReference = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
     }
 
     private void ButtonComponent(View root) {
         MoButton = root.findViewById(R.id.btnModifica);
         MoButton.setOnClickListener((View.OnClickListener)this);
+        btnbuscar = root.findViewById(R.id.MODbtnBuscar);
+        btnbuscar.setOnClickListener(this);
     }
 
     private void EditTextComponent(View root) {
@@ -156,14 +172,12 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                                 //llenado de campos
                                 String imagen = uri.toString();
                                 Producto p = new Producto();
-                                //extraer usuario
-                                Bundle extras = getActivity().getIntent().getExtras();
-                                Usuario us = null;
-                                if (extras == null){
-                                    us = (Usuario)extras.getSerializable("usuario");
-                                }
+
+
+
 
                                 //modificar usuario
+                                p.setId(etId.getText().toString().trim());
                                 p.setNombre(etNombre.getText().toString().trim());
                                 p.setCantidad(etCantidad.getText().toString().trim());
                                 p.setPrecio(etPrecio.getText().toString().trim());
@@ -172,7 +186,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                                 Toast.makeText(getContext(), "Modificaron Archivos", Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
                                 //generar alta
-                                dbReference.child("Producto").child(us.getId()).child(p.getId()).setValue(us);
+                                bdReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
                                 Toast.makeText(getContext(), "Producto Modificado", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -215,6 +229,23 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.MODbtnBuscar:
+                bdReference.child("Producto").child(user.getUid()).child(etId.getText().toString()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        prod = snapshot.getValue(Producto.class);
+                        etNombre.setText(prod.getNombre());
+                        etCantidad.setText(prod.getCantidad());
+                        etPrecio.setText(prod.getPrecio());
+                        Picasso.get().load( prod.getFoto() ).into( miImagenView );
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
 
 
                 break;
@@ -255,6 +286,26 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
             etPrecio.setError("Campo o Nombre obligatorio");
         }else if (photoUri==null) {
             Toast.makeText(getContext(), "imagen vacia", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == Request_TAKE_PHOTO && resultCode == RESULT_OK){
+            //Bundle extras = data.getExtras();
+            Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            //Bitmap imageBitmap = (Bitmap) extras.get("data");
+            miImagenView.setImageBitmap(imageBitmap);
+            //dio errror aqui , Linea 88
+            try{
+                miImagenView.setImageURI(photoUri);
+                img=currentPhotoPath;
+                Toast.makeText(getContext(), "img:" + img, Toast.LENGTH_SHORT).show();
+            }catch (Exception ex){
+                ex.printStackTrace();
+                Toast.makeText(getContext(),"Fallos de onActivityResult " + img,Toast.LENGTH_LONG).show();
+            }
         }
     }
 

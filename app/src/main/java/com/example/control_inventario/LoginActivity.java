@@ -68,42 +68,52 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void logear(String correo, String pass,View view){
-        bdMauth.signInWithEmailAndPassword(correo,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    validarCampos();
-                    Toast.makeText(LoginActivity.this, "Se ha logeado", Toast.LENGTH_SHORT).show();
-                    FirebaseUser user = bdMauth.getCurrentUser();
-                    bdReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Usuario usuario = snapshot.getValue(Usuario.class);
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("usuario",user.getUid());
-                            //Bundle bundle = new Bundle();
-                            //bundle.putSerializable("usuario",usuario);
-                            //intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-                    });
-                } else {
-                    Toast.makeText(LoginActivity.this, "Correo no encontrado", Toast.LENGTH_SHORT).show();
+
+        if (validarCampos()){
+            bdMauth.signInWithEmailAndPassword(correo,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>(){
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+
+                        Toast.makeText(LoginActivity.this, "Se ha logeado", Toast.LENGTH_SHORT).show();
+                        FirebaseUser user = bdMauth.getCurrentUser();
+                        bdReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Usuario usuario = snapshot.getValue(Usuario.class);
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("usuario",user.getUid());
+                                //Bundle bundle = new Bundle();
+                                //bundle.putSerializable("usuario",usuario);
+                                //intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Correo no encontrado", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Toast.makeText(this, "Verifique los campos", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
-    private void validarCampos () {
+    private boolean validarCampos () {
+        boolean validado=true;
         String correo =etCorreo.getText().toString();
         String pass = etCorreo.getText().toString();
         if (correo.equals("")) {
             etCorreo.setError("correo obligatorio");
+            validado = false;
         } else if (pass.equals("")) {
             etPass.setError("Contraseña obligatoria");
+            validado = false;
         }
+        return validado;
     }
 }
