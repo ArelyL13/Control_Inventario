@@ -71,105 +71,108 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
         btnRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(RegistroUsuariosActivity.this, "Iniciando proceso", Toast.LENGTH_LONG).show();
-                //mAuth.signOut();
-                bdMauth.createUserWithEmailAndPassword(etCorreo.getText().toString(),etPass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                if (validarCampos()){
+                    Toast.makeText(RegistroUsuariosActivity.this, "Iniciando proceso", Toast.LENGTH_LONG).show();
+                    //mAuth.signOut();
+                    bdMauth.createUserWithEmailAndPassword(etCorreo.getText().toString(),etPass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
 
-                            StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
-                            StorageReference file_name = folder.child("file"+photoUri.getLastPathSegment());
+                                StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
+                                StorageReference file_name = folder.child("file"+photoUri.getLastPathSegment());
 
 
-                            file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                        Toast.makeText(RegistroUsuariosActivity.this, "Subiendo", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                        Toast.makeText(RegistroUsuariosActivity.this, "Error", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                        UploadTask.TaskSnapshot downloadUri = null;
+                                        downloadUri = task.getResult();
+                                        Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
+                                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                Toast.makeText(RegistroUsuariosActivity.this, "Subieron Archivos", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(RegistroUsuariosActivity.this,  uri.toString(), Toast.LENGTH_SHORT).show();
+                                                String imagen = uri.toString();
+                                                Usuario us = new Usuario();
+                                                //Log.d("id_us",bdMauth.getUid());
+                                                us.setId(bdMauth.getUid());
+                                                us.setNombre(etNombre.getText().toString().trim());
+                                                us.setCorreo(etCorreo.getText().toString().trim());
+                                                us.setPass(etPass.getText().toString().trim());
+                                                us.setTipo(etTipo.getText().toString().trim());
+                                                us.setFoto(imagen);
+                                                dbReference.child("Usuario").child(us.getId()).setValue(us);
+
+                                                Intent intent = new Intent(RegistroUsuariosActivity.this,MainActivity.class);
+                                                intent.putExtra("usuario",us);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                });
+
+                                /**
+                                 file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                //Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+                                /**
+                                Log.d("rutaImg1",taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+                                Log.d("rutaImg2",taskSnapshot.getMetadata().getReference().getPath());
+                                Log.d("rutaImg3",taskSnapshot.getMetadata().getReference().getBucket());
+                                Log.d("rutaImg4",taskSnapshot.getMetadata().getReference().getPath());
+                                Log.d("rutaImg5",taskSnapshot.getUploadSessionUri().toString());
 
-                                    Toast.makeText(RegistroUsuariosActivity.this, "Subiendo", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistroUsuariosActivity.this, "Imagen Subida", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistroUsuariosActivity.this, "1"+taskSnapshot.getMetadata().getReference().getDownloadUrl().toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistroUsuariosActivity.this, "2"+taskSnapshot.getMetadata().getReference().getPath(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistroUsuariosActivity.this, "3"+taskSnapshot.getMetadata().getReference().getBucket(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistroUsuariosActivity.this, "4"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_SHORT).show();
 
+
+                                String imagen = taskSnapshot.getUploadSessionUri().toString();
+                                Usuario us = new Usuario();
+                                Log.d("id_us",bdMauth.getUid());
+                                us.setId(UUID.randomUUID().toString());
+                                us.setNombre(etNombre.getText().toString().trim());
+                                us.setCorreo(etCorreo.getText().toString().trim());
+                                us.setPass(etPass.getText().toString().trim());
+                                us.setTipo(etTipo.getText().toString().trim());
+                                us.setFoto(imagen);
+                                //Log.d("ruta",generatedFilePath);
+                                dbReference.child("Usuario").child(us.getId()).setValue(us);
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-
-                                    Toast.makeText(RegistroUsuariosActivity.this, "Error", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    UploadTask.TaskSnapshot downloadUri = null;
-                                    downloadUri = task.getResult();
-                                    Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
-                                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            Toast.makeText(RegistroUsuariosActivity.this, "Subieron Archivos", Toast.LENGTH_SHORT).show();
-                                            Toast.makeText(RegistroUsuariosActivity.this,  uri.toString(), Toast.LENGTH_SHORT).show();
-                                            String imagen = uri.toString();
-                                            Usuario us = new Usuario();
-                                            //Log.d("id_us",bdMauth.getUid());
-                                            us.setId(bdMauth.getUid());
-                                            us.setNombre(etNombre.getText().toString().trim());
-                                            us.setCorreo(etCorreo.getText().toString().trim());
-                                            us.setPass(etPass.getText().toString().trim());
-                                            us.setTipo(etTipo.getText().toString().trim());
-                                            us.setFoto(imagen);
-                                            dbReference.child("Usuario").child(us.getId()).setValue(us);
-
-                                            Intent intent = new Intent(RegistroUsuariosActivity.this,MainActivity.class);
-                                            intent.putExtra("usuario",us);
-                                            startActivity(intent);
-                                        }
-                                    });
-                                }
-                            });
-
-                            /**
-                             file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
-                            /**
-                            Log.d("rutaImg1",taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-                            Log.d("rutaImg2",taskSnapshot.getMetadata().getReference().getPath());
-                            Log.d("rutaImg3",taskSnapshot.getMetadata().getReference().getBucket());
-                            Log.d("rutaImg4",taskSnapshot.getMetadata().getReference().getPath());
-                            Log.d("rutaImg5",taskSnapshot.getUploadSessionUri().toString());
-
-                            Toast.makeText(RegistroUsuariosActivity.this, "Imagen Subida", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(RegistroUsuariosActivity.this, "1"+taskSnapshot.getMetadata().getReference().getDownloadUrl().toString(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(RegistroUsuariosActivity.this, "2"+taskSnapshot.getMetadata().getReference().getPath(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(RegistroUsuariosActivity.this, "3"+taskSnapshot.getMetadata().getReference().getBucket(), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(RegistroUsuariosActivity.this, "4"+taskSnapshot.getUploadSessionUri().toString(), Toast.LENGTH_SHORT).show();
+                                });
+                                 **/
 
 
-                            String imagen = taskSnapshot.getUploadSessionUri().toString();
-                            Usuario us = new Usuario();
-                            Log.d("id_us",bdMauth.getUid());
-                            us.setId(UUID.randomUUID().toString());
-                            us.setNombre(etNombre.getText().toString().trim());
-                            us.setCorreo(etCorreo.getText().toString().trim());
-                            us.setPass(etPass.getText().toString().trim());
-                            us.setTipo(etTipo.getText().toString().trim());
-                            us.setFoto(imagen);
-                            //Log.d("ruta",generatedFilePath);
-                            dbReference.child("Usuario").child(us.getId()).setValue(us);
+
+
+                                Toast.makeText(RegistroUsuariosActivity.this, "Registro Finalizado", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(RegistroUsuariosActivity.this, "Error con la bd", Toast.LENGTH_SHORT).show();
                             }
-                            });
-                             **/
-
-
-
-
-                            Toast.makeText(RegistroUsuariosActivity.this, "Registro Finalizado", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(RegistroUsuariosActivity.this, "Error con la bd", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
-            }
+                    });
+                }
+                }
+
         });
 
 
@@ -286,11 +289,12 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
             etTipo.setError("tipo Obligatorio");
             validado=false;
 
-        } else if (photoUri.equals(null)){
-            etTipo.setError("Campo imagen Obligatorio");
-            validado=false;
+        } else if (photoUri==null){
+            Toast.makeText(this, "imagen vacia", Toast.LENGTH_SHORT).show();
+            validado = false;
 
         }
+
         return validado;
     }
 

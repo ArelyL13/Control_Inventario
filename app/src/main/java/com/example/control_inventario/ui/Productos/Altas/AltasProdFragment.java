@@ -123,68 +123,74 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ALTbtnGuardar:
-                //variables para subir imagen
-                StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
-                StorageReference file_name = folder.child("file"+photoUri.getLastPathSegment());
 
-                //metodo para subir imagen
-                file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //proceso
-                        Toast.makeText(getContext(), "Subiendo", Toast.LENGTH_SHORT).show();
+                if (validarCampos()){
+                    //variables para subir imagen
+                    StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
+                    StorageReference file_name = folder.child("file"+photoUri.getLastPathSegment());
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //fallo
-                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    //metodo para subir imagen
+                    file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //proceso
+                            Toast.makeText(getContext(), "Subiendo", Toast.LENGTH_SHORT).show();
 
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        //completado
-                        //obtener imagen
-                        UploadTask.TaskSnapshot downloadUri = null;
-                        downloadUri = task.getResult();
-                        Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //fallo
+                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
 
-                        //si obtubo exitosamente
-                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                //llenado de campos
-                                String imagen = uri.toString();
-                                Producto p = new Producto();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            //completado
+                            //obtener imagen
+                            UploadTask.TaskSnapshot downloadUri = null;
+                            downloadUri = task.getResult();
+                            Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
 
-                                //extraer usuario
+                            //si obtubo exitosamente
+                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //llenado de campos
+                                    String imagen = uri.toString();
+                                    Producto p = new Producto();
 
-                                //Bundle extras = getActivity().getIntent().getExtras();
-                                //String us = null;
+                                    //extraer usuario
 
-                                if (true){
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    p.setId(UUID.randomUUID().toString());
-                                    p.setNombre(etNombre.getText().toString());
-                                    p.setCantidad(etCantidad.getText().toString());
-                                    p.setPrecio(etPrecio.getText().toString());
-                                    p.setFoto(imagen);
+                                    //Bundle extras = getActivity().getIntent().getExtras();
+                                    //String us = null;
 
-                                    Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
-                                    dbReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
-                                    Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    Toast.makeText(getContext(), "No entro usuario", Toast.LENGTH_SHORT).show();
+                                    if (true){
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        p.setId(UUID.randomUUID().toString());
+                                        p.setNombre(etNombre.getText().toString());
+                                        p.setCantidad(etCantidad.getText().toString());
+                                        p.setPrecio(etPrecio.getText().toString());
+                                        p.setFoto(imagen);
+
+                                        Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
+                                        dbReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
+                                        Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(getContext(), "No entro usuario", Toast.LENGTH_SHORT).show();
+                                    }
+                                    //crear usuario
+
                                 }
-                                //crear usuario
+                            });
+                        }
+                    });
+                }else{
+                    Toast.makeText(getContext(), "llena todos los campos", Toast.LENGTH_SHORT).show();
+                }
 
-                            }
-                        });
-                    }
-                });
                 break;
 
             case R.id.ALTivFoto:
@@ -261,5 +267,26 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         File image = File.createTempFile(imageFilename,".jpg",storageDir);
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+    private boolean validarCampos () {
+        boolean validado=true;
+        String producto = etNombre.getText().toString();
+        String cantidad = etCantidad.getText().toString();
+        String precio = etPrecio.getText().toString();
+
+        if (producto.equals("")) {
+            etNombre.setError("Campo o Nombre obligatorio");
+            validado = false;
+        } else if (cantidad.equals("")) {
+            etCantidad.setError("Campo o Nombre obligatorio");
+            validado = false;
+        } else if (precio.equals("")) {
+            etPrecio.setError("Campo o Nombre obligatorio");
+            validado = false;
+        }else if (photoUri==null) {
+            Toast.makeText(getContext(), "imagen vacia", Toast.LENGTH_SHORT).show();
+            validado = false;
+        }
+        return validado;
     }
 }
