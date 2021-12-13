@@ -1,5 +1,7 @@
 package com.example.control_inventario.ui.Productos.Altas;
 
+import static android.app.Activity.RESULT_OK;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -10,6 +12,8 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -39,6 +43,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -60,15 +66,14 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     private FragmentAltasProdBinding binding;
     private Button btnguarda;
     private EditText etNombre, etCantidad, etPrecio;
-    private ImageView miImagenView;
+    private ImageView ivFoto;
     private Uri fotoUri;
-
     private Uri photoUri;
     public static String currentPhotoPath,img="", tamanio, tipSoft, urgencia;
     public static final int Request_TAKE_PHOTO = 1;
 
-
     DatabaseReference dbReference;
+    FirebaseAuth mAuth;
     public static AltasProdFragment newInstance() {
         return new AltasProdFragment();
     }
@@ -89,8 +94,8 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         EditTextComponent(root);
         ButtonComponent(root);
         btnguarda.setOnClickListener(this);
-        miImagenView.setOnClickListener(this);
-
+        ivFoto.setOnClickListener(this);
+        mAuth = FirebaseAuth.getInstance();
         dbReference = FirebaseDatabase.getInstance().getReference();
 
     }
@@ -105,7 +110,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         etCantidad = root.findViewById(R.id.AlTetCantidad);
         etPrecio = root.findViewById(R.id.AlTetPrecio);
 
-        miImagenView = root.findViewById(R.id.ALTivFoto);
+        ivFoto = root.findViewById(R.id.ALTivFoto);
     }
 
 
@@ -154,25 +159,28 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                                 String imagen = uri.toString();
                                 Producto p = new Producto();
 
-
                                 //extraer usuario
-                                Bundle extras = getActivity().getIntent().getExtras();
-                                Usuario us = null;
-                                if (extras == null){
-                                    us = (Usuario)extras.getSerializable("usuario");
+
+                                //Bundle extras = getActivity().getIntent().getExtras();
+                                //String us = null;
+
+                                if (true){
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    p.setId(UUID.randomUUID().toString());
+                                    p.setNombre(etNombre.getText().toString());
+                                    p.setCantidad(etCantidad.getText().toString());
+                                    p.setPrecio(etPrecio.getText().toString());
+                                    p.setFoto(imagen);
+
+                                    Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
+                                    dbReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
+                                    Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(getContext(), "No entro usuario", Toast.LENGTH_SHORT).show();
                                 }
                                 //crear usuario
-                                p.setId(UUID.randomUUID().toString());
-                                p.setNombre(etNombre.getText().toString());
-                                p.setCantidad(etCantidad.getText().toString());
-                                p.setPrecio(etPrecio.getText().toString());
-                                p.setFoto(imagen);
 
-                                Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
-                                //generar alta
-                                dbReference.child("Producto").child(us.getId()).child(p.getId()).setValue(us);
-                                Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -214,6 +222,26 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                 break;
             default:
                 Toast.makeText(getContext(), "Elemnto no encontrado", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == Request_TAKE_PHOTO && resultCode == RESULT_OK){
+            //Bundle extras = data.getExtras();
+            Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            //Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ivFoto.setImageBitmap(imageBitmap);
+            //dio errror aqui , Linea 88
+            try{
+                ivFoto.setImageURI(photoUri);
+                img=currentPhotoPath;
+                Toast.makeText(getContext(), "img:" + img, Toast.LENGTH_SHORT).show();
+            }catch (Exception ex){
+                ex.printStackTrace();
+                Toast.makeText(getContext(),"Fallos de onActivityResult " + img,Toast.LENGTH_LONG).show();
+            }
         }
     }
 
