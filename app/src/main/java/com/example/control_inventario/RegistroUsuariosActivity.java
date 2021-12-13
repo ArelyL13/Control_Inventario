@@ -265,6 +265,34 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
             }
         });
     }
+    private boolean validarCampos () {
+        boolean validado=true;
+        String correo =etCorreo.getText().toString();
+        String pass = etCorreo.getText().toString();
+        String nombre =etNombre.getText().toString();
+        String tipo = etTipo.getText().toString();
+
+
+        if (correo.equals("")) {
+            etCorreo.setError("correo obligatorio");
+            validado=false;
+        } else if (pass.equals("")) {
+            etPass.setError("Contraseña obligatoria");
+            validado=false;
+        }else if (nombre.equals("")){
+        etNombre.setError("nombre Obligatorio");
+            validado=false;
+       }else if (tipo.equals("")){
+            etTipo.setError("tipo Obligatorio");
+            validado=false;
+
+        } else if (photoUri.equals(null)){
+            etTipo.setError("Campo imagen Obligatorio");
+            validado=false;
+
+        }
+        return validado;
+    }
 
 
 }

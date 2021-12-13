@@ -149,7 +149,6 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                         UploadTask.TaskSnapshot downloadUri = null;
                         downloadUri = task.getResult();
                         Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
-
                         //si obtubo exitosamente
                         result.addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
@@ -241,7 +240,23 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         return image;
     }
 
+    private void validarCampos () {
+        String producto = etNombre.getText().toString();
+        String cantidad = etCantidad.getText().toString();
+        String precio = etPrecio.getText().toString();
 
+
+
+        if (producto.equals("")) {
+            etNombre.setError("Campo o Nombre obligatorio");
+        } else if (cantidad.equals("")) {
+            etCantidad.setError("Campo o Nombre obligatorio");
+        } else if (precio.equals("")) {
+            etPrecio.setError("Campo o Nombre obligatorio");
+        }else if (photoUri==null) {
+            Toast.makeText(getContext(), "imagen vacia", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 

@@ -69,28 +69,30 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     private ImageView ivFoto;
     private Uri fotoUri;
     private Uri photoUri;
-    public static String currentPhotoPath,img="", tamanio, tipSoft, urgencia;
+    public static String currentPhotoPath, img = "", tamanio, tipSoft, urgencia;
     public static final int Request_TAKE_PHOTO = 1;
 
     DatabaseReference dbReference;
     FirebaseAuth mAuth;
+
     public static AltasProdFragment newInstance() {
         return new AltasProdFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState) {
-       // return inflater.inflate(R.layout.fragment_altas_prod, container, false);
-        altViewModel= new ViewModelProvider(this).get(AltasProdViewModel.class);
-        binding= FragmentAltasProdBinding.inflate(inflater,container,false);
-        View root= binding.getRoot();
+                             Bundle savedInstanceState) {
+        // return inflater.inflate(R.layout.fragment_altas_prod, container, false);
+        altViewModel = new ViewModelProvider(this).get(AltasProdViewModel.class);
+        binding = FragmentAltasProdBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
         componentes(root);
 
 
         return root;
     }
-    private void componentes(View root){
+
+    private void componentes(View root) {
         EditTextComponent(root);
         ButtonComponent(root);
         btnguarda.setOnClickListener(this);
@@ -102,7 +104,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
 
     private void ButtonComponent(View root) {
         btnguarda = root.findViewById(R.id.ALTbtnGuardar);
-        btnguarda.setOnClickListener((View.OnClickListener)this);
+        btnguarda.setOnClickListener((View.OnClickListener) this);
     }
 
     private void EditTextComponent(View root) {
@@ -121,11 +123,11 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ALTbtnGuardar:
                 //variables para subir imagen
                 StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
-                StorageReference file_name = folder.child("file"+photoUri.getLastPathSegment());
+                StorageReference file_name = folder.child("file" + photoUri.getLastPathSegment());
 
                 //metodo para subir imagen
                 file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -164,7 +166,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                                 //Bundle extras = getActivity().getIntent().getExtras();
                                 //String us = null;
 
-                                if (true){
+                                if (true) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     p.setId(UUID.randomUUID().toString());
                                     p.setNombre(etNombre.getText().toString());
@@ -173,10 +175,10 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                                     p.setFoto(imagen);
 
                                     Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), uri.toString(), Toast.LENGTH_SHORT).show();
                                     dbReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
                                     Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
-                                }else{
+                                } else {
                                     Toast.makeText(getContext(), "No entro usuario", Toast.LENGTH_SHORT).show();
                                 }
                                 //crear usuario
@@ -190,9 +192,9 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
             case R.id.ALTivFoto:
                 //Toast.makeText(getContext(), "Entrnado a tomar foto", Toast.LENGTH_SHORT).show();
                 Intent tomarFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (tomarFoto.resolveActivity(getActivity().getPackageManager()) != null){
+                if (tomarFoto.resolveActivity(getActivity().getPackageManager()) != null) {
                     File photoFile = null;
-                    try{
+                    try {
                         photoFile = createImageFile();
                         /**
                          if (photoFile == null){
@@ -201,22 +203,22 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                          Toast.makeText(getContext(), "photoFile LLenado", Toast.LENGTH_SHORT).show();
                          }
                          **/
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Toast.makeText(getContext(), "Error en la fotografia", Toast.LENGTH_SHORT).show();
                     }
-                    if (photoFile != null){
+                    if (photoFile != null) {
 
                         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED){
-                            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+                                != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                         }
 
-                        photoUri = FileProvider.getUriForFile(getContext(),"com.example.control_inventario",photoFile);
-                        tomarFoto.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
-                        startActivityForResult(tomarFoto,Request_TAKE_PHOTO);
+                        photoUri = FileProvider.getUriForFile(getContext(), "com.example.control_inventario", photoFile);
+                        tomarFoto.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                        startActivityForResult(tomarFoto, Request_TAKE_PHOTO);
                     }
-                }else{
+                } else {
                     Toast.makeText(getContext(), "Fotografia, No entra al proceso", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -226,21 +228,21 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if (requestCode == Request_TAKE_PHOTO && resultCode == RESULT_OK){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Request_TAKE_PHOTO && resultCode == RESULT_OK) {
             //Bundle extras = data.getExtras();
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
             //Bitmap imageBitmap = (Bitmap) extras.get("data");
             ivFoto.setImageBitmap(imageBitmap);
             //dio errror aqui , Linea 88
-            try{
+            try {
                 ivFoto.setImageURI(photoUri);
-                img=currentPhotoPath;
+                img = currentPhotoPath;
                 Toast.makeText(getContext(), "img:" + img, Toast.LENGTH_SHORT).show();
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
-                Toast.makeText(getContext(),"Fallos de onActivityResult " + img,Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Fallos de onActivityResult " + img, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -254,12 +256,30 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
     private File createImageFile() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFilename = "FP_"+timestamp+"_";
+        String imageFilename = "FP_" + timestamp + "_";
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFilename,".jpg",storageDir);
+        File image = File.createTempFile(imageFilename, ".jpg", storageDir);
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
-}
+
+    private void validarCampos() {
+        String producto = etNombre.getText().toString();
+        String cantidad = etCantidad.getText().toString();
+        String precio = etPrecio.getText().toString();
+
+
+        if (producto.equals("")) {
+            etNombre.setError("Campo o Nombre obligatorio");
+        } else if (cantidad.equals("")) {
+            etCantidad.setError("Campo o Nombre obligatorio");
+        } else if (precio.equals("")) {
+            etPrecio.setError("Campo o Nombre obligatorio");
+        } else if (photoUri == null)
+            Toast.makeText(getContext(), "imagen vacia", Toast.LENGTH_SHORT).show();
+    }
+    }
+
