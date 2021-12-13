@@ -26,7 +26,7 @@
 
 
             <ImageView
-                android:id="@+id/ALTivFoto"
+                android:id="@+id/PALTivFoto"
                 android:layout_width="196dp"
                 android:layout_height="170dp"
                 android:layout_gravity="center"

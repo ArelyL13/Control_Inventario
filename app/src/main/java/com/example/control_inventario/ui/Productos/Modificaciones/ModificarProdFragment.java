@@ -77,10 +77,11 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
     private ArrayList<Producto> Product = new ArrayList<Producto>();
     FirebaseAuth mAuth;
     FirebaseUser user;
+    DatabaseReference bdReference;
     Producto prod;
 
 
-    DatabaseReference bdReference;
+
     private ModificarProdViewModel mViewModel;
 
     public static ModificarProdFragment newInstance() {

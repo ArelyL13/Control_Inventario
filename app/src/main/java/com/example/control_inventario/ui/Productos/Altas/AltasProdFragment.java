@@ -110,7 +110,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         etCantidad = root.findViewById(R.id.AlTetCantidad);
         etPrecio = root.findViewById(R.id.AlTetPrecio);
 
-        ivFoto = root.findViewById(R.id.ALTivFoto);
+        ivFoto = root.findViewById(R.id.PALTivFoto);
     }
 
 
@@ -187,7 +187,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                 });
                 break;
 
-            case R.id.ALTivFoto:
+            case R.id.PALTivFoto:
                 //Toast.makeText(getContext(), "Entrnado a tomar foto", Toast.LENGTH_SHORT).show();
                 Intent tomarFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (tomarFoto.resolveActivity(getActivity().getPackageManager()) != null){

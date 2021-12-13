@@ -24,7 +24,7 @@
 
 
             <ImageView
-                android:id="@+id/ALTivFoto"
+                android:id="@+id/PRODBAJAivFoto"
                 android:layout_width="196dp"
                 android:layout_height="170dp"
                 android:layout_gravity="center"
@@ -34,89 +34,110 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_margin="@dimen/cardview_default_radius"
+                    android:layout_marginTop="60dp"
+                    android:hint="id"
+                    android:paddingTop="40dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/orange"
+                    app:endIconMode="clear_text"
+                    app:helperText="id"
+                    app:helperTextEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/PRODBAJAetId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/PRODBAJAbtnBuscar"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Buscar"
+                    android:backgroundTint="@color/azulM"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre"
+                    android:textColor="@color/black"
+                    android:textSize="30dp"/>
 
-
+                <TextView
+                    android:id="@+id/PRODBAJAtvNombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre"
+                    android:textSize="30dp"/>
             </LinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre"/>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/cardview_default_radius"
-                android:hint="Ingresa el nombre del producto"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/orange"
-                app:endIconMode="clear_text"
-                android:layout_marginTop="60dp"
-                app:helperText="Producto"
-                app:helperTextEnabled="true"
-                android:inputType="none">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/AlTetProductoNom"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="Cantidad"
+                    android:textColor="@color/black"
+                    android:textSize="30dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <TextView
+                    android:id="@+id/PRODBAJAtvCantidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cantidad"
+                    android:textSize="30dp"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/cardview_default_radius"
-                android:hint="Ingresa la cantidad"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/orange"
-                app:endIconMode="clear_text"
-                android:layout_marginTop="60dp"
-                app:helperText="Cantidad"
-                app:helperTextEnabled="true"
-                >
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/AlTetCantidad"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="Precio"
+                    android:textColor="@color/black"
+                    android:textSize="30dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/cardview_default_radius"
-                android:hint="Ingresa el precio"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/orange"
-                app:endIconMode="clear_text"
-                android:layout_marginTop="60dp"
-                app:helperText="Precio"
-                app:helperTextEnabled="true"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/AlTetPrecio"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/PRODBAJAtvPrecio"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="Precio"
+                    android:textSize="30dp"/>
+            </LinearLayout>
+
 
             <Button
-                android:id="@+id/ALTbtnGuardar"
+                android:id="@+id/PRODBAJAbtnEliminar"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Guardar"
+                android:text="Eliminar"
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
 
