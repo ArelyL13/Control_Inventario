@@ -54,6 +54,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -137,62 +138,64 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
     }
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnModifica:
-                //variables para subir imagen
-                StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
-                StorageReference file_name = folder.child("file"+photoUri.getLastPathSegment());
 
-                //metodo para subir imagen
-                file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //proceso
-                        Toast.makeText(getContext(), "Subiendo", Toast.LENGTH_SHORT).show();
+                if (validarCampos()) {
+                    //variables para subir imagen
+                    StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
+                    StorageReference file_name = folder.child("file" + photoUri.getLastPathSegment());
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //fallo
-                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    //metodo para subir imagen
+                    file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //proceso
+                            Toast.makeText(getContext(), "Subiendo", Toast.LENGTH_SHORT).show();
 
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        //completado
-                        //obtener imagen
-                        UploadTask.TaskSnapshot downloadUri = null;
-                        downloadUri = task.getResult();
-                        Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
-                        //si obtubo exitosamente
-                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                //llenado de campos
-                                String imagen = uri.toString();
-                                Producto p = new Producto();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //fallo
+                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
 
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            //completado
+                            //obtener imagen
+                            UploadTask.TaskSnapshot downloadUri = null;
+                            downloadUri = task.getResult();
+                            Task<Uri> result = downloadUri.getStorage().getDownloadUrl();
+                            //si obtubo exitosamente
+                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //llenado de campos
+                                    String imagen = uri.toString();
+                                    Producto p = new Producto();
+                                    //modificar usuario
+                                    p.setId(etId.getText().toString().trim());
+                                    p.setNombre(etNombre.getText().toString().trim());
+                                    p.setCantidad(etCantidad.getText().toString().trim());
+                                    p.setPrecio(etPrecio.getText().toString().trim());
+                                    p.setFoto(imagen);
 
+                                    Toast.makeText(getContext(), "Modificaron Archivos", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), uri.toString(), Toast.LENGTH_SHORT).show();
+                                    //generar alta
+                                    bdReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
+                                    Toast.makeText(getContext(), "Producto Modificado", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    Toast.makeText(getContext(), "llena todos los campos", Toast.LENGTH_SHORT).show();
+                }
 
-
-                                //modificar usuario
-                                p.setId(etId.getText().toString().trim());
-                                p.setNombre(etNombre.getText().toString().trim());
-                                p.setCantidad(etCantidad.getText().toString().trim());
-                                p.setPrecio(etPrecio.getText().toString().trim());
-                                p.setFoto(imagen);
-
-                                Toast.makeText(getContext(), "Modificaron Archivos", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
-                                //generar alta
-                                bdReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
-                                Toast.makeText(getContext(), "Producto Modificado", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
                 break;
 
             case R.id.MODivFoto:
@@ -272,22 +275,26 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         return image;
     }
 
-    private void validarCampos () {
+    private boolean validarCampos () {
+        boolean validado=true;
         String producto = etNombre.getText().toString();
         String cantidad = etCantidad.getText().toString();
         String precio = etPrecio.getText().toString();
 
-
-
         if (producto.equals("")) {
             etNombre.setError("Campo o Nombre obligatorio");
+            validado = false;
         } else if (cantidad.equals("")) {
             etCantidad.setError("Campo o Nombre obligatorio");
+            validado = false;
         } else if (precio.equals("")) {
             etPrecio.setError("Campo o Nombre obligatorio");
+            validado = false;
         }else if (photoUri==null) {
             Toast.makeText(getContext(), "imagen vacia", Toast.LENGTH_SHORT).show();
+            validado = false;
         }
+        return validado;
     }
 
     @Override
