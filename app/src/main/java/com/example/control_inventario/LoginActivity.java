@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 logear(etCorreo.getText().toString(),etPass.getText().toString(),view);
+
             }
         });
     }
@@ -71,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    validarCampos();
                     Toast.makeText(LoginActivity.this, "Se ha logeado", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = bdMauth.getCurrentUser();
                     bdReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
@@ -93,5 +95,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void validarCampos () {
+        String correo =etCorreo.getText().toString();
+        String pass = etCorreo.getText().toString();
+        if (correo.equals("")) {
+            etCorreo.setError("correo obligatorio");
+        } else if (pass.equals("")) {
+            etPass.setError("Contraseña obligatoria");
+        }
     }
 }
