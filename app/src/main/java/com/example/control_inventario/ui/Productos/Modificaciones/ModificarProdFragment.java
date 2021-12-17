@@ -188,6 +188,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                                     //generar alta
                                     bdReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
                                     Toast.makeText(getContext(), "Producto Modificado", Toast.LENGTH_SHORT).show();
+                                    limpiar();
                                 }
                             });
                         }
@@ -317,7 +318,12 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    private void limpiar () {
+        etNombre.setText("");
+        etCantidad.setText("");
+        etPrecio.setText("");
 
+    }
 
 
 }

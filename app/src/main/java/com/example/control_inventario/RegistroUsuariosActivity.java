@@ -122,6 +122,7 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
                                                 Intent intent = new Intent(RegistroUsuariosActivity.this,MainActivity.class);
                                                 intent.putExtra("usuario",us);
                                                 startActivity(intent);
+                                                limpiar();
                                             }
                                         });
                                     }
@@ -297,6 +298,11 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
 
         return validado;
     }
-
+    private void limpiar(){
+        etNombre.setText("");
+        etTipo.setText("");
+        etCorreo.setText("");
+        etPass.setText("");
+    }
 
 }

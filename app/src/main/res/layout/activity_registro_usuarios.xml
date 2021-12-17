@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:backgroundTint="@color/azulM"
-                    android:text="@string/cambiarFoto"
+                    android:text="Tomar Foto"
                     android:textColor="@color/white" />
             </LinearLayout>
 
