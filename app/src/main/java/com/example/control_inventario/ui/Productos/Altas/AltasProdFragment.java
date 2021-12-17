@@ -178,6 +178,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                                         Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
                                         dbReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
                                         Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
+                                        limpiar();
                                     }else{
                                         Toast.makeText(getContext(), "No entro usuario", Toast.LENGTH_SHORT).show();
                                     }
@@ -288,5 +289,12 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
             validado = false;
         }
         return validado;
+    }
+
+    private void limpiar () {
+        etNombre.setText("");
+        etCantidad.setText("");
+        etPrecio.setText("");
+
     }
 }
