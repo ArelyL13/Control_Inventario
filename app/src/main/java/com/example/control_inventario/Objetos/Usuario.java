@@ -7,6 +7,8 @@ public class Usuario implements Serializable {
     private String correo;
     private String pass;
     private String nombre;
+    private String apellidoP;
+    private String apellidoM;
     private String tipo;
     private Double latitud;
     private Double longitud;
@@ -17,28 +19,32 @@ public class Usuario implements Serializable {
         this.longitud = 0.0;
     }
 
-    public Usuario(String id, String usuario, String pass, String nombre, String tipo, Double latitud, Double longitud, String foto) {
+
+    public Usuario(String id, String correo, String pass, String nombre, String apellidoP, String apellidoA, String tipo, Double latitud, Double longitud, String foto) {
         this.id = id;
-        this.correo = usuario;
+        this.correo = correo;
         this.pass = pass;
         this.nombre = nombre;
+        this.apellidoP = apellidoP;
+        this.apellidoM = apellidoA;
         this.tipo = tipo;
         this.latitud = latitud;
         this.longitud = longitud;
         this.foto = foto;
     }
 
-    public Usuario(String id, String usuario, String pass, String nombre, String tipo, String foto) {
+    public Usuario(String id, String correo, String pass, String nombre, String apellidoP, String apellidoA, String tipo, String foto) {
         this.id = id;
-        this.correo = usuario;
+        this.correo = correo;
         this.pass = pass;
         this.nombre = nombre;
+        this.apellidoP = apellidoP;
+        this.apellidoM = apellidoA;
         this.tipo = tipo;
         this.foto = foto;
         this.latitud = 0.0;
         this.longitud = 0.0;
     }
-
 
     public String getId() {
         return id;
@@ -102,5 +108,21 @@ public class Usuario implements Serializable {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getApellidoP() {
+        return apellidoP;
+    }
+
+    public void setApellidoP(String apellidoP) {
+        this.apellidoP = apellidoP;
+    }
+
+    public String getApellidoM() {
+        return apellidoM;
+    }
+
+    public void setApellidoM(String apellidoA) {
+        this.apellidoM = apellidoA;
     }
 }

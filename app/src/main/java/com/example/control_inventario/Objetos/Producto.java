@@ -6,13 +6,17 @@ public class Producto {
     private String foto;
     private String cantidad;
     private String precio;
+    private String caducidad;
+    private String tipo;
 
-    public Producto(String id, String nombre, String foto, String cantidad, String precio) {
+    public Producto(String id, String nombre, String foto, String cantidad, String precio, String caducidad, String tipo) {
         this.id = id;
         this.nombre = nombre;
         this.foto = foto;
         this.cantidad = cantidad;
         this.precio = precio;
+        this.caducidad = caducidad;
+        this.tipo = tipo;
     }
 
     public Producto() {
@@ -56,5 +60,21 @@ public class Producto {
 
     public void setPrecio(String precio) {
         this.precio = precio;
+    }
+
+    public String getCaducidad() {
+        return caducidad;
+    }
+
+    public void setCaducidad(String caducidad) {
+        this.caducidad = caducidad;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

@@ -120,21 +120,58 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cardview_default_radius"
                 android:layout_marginTop="60dp"
-                android:hint="Tipo"
+                android:hint="Ingrese el Apellido Paterno"
                 android:layout_marginVertical="10dp"
                 app:boxBackgroundMode="outline"
                 app:boxStrokeColor="@color/orange"
                 app:endIconMode="clear_text"
-                app:helperText="Tipo"
+                app:helperText="Apellido Paterno"
                 app:helperTextEnabled="true"
                 tools:ignore="MissingConstraints">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/REGetTipo"
+                    android:id="@+id/REGetApellidoP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cardview_default_radius"
+                android:layout_marginTop="60dp"
+                android:hint="Ingrese el Apellido Materno"
+                android:layout_marginVertical="10dp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/orange"
+                app:endIconMode="clear_text"
+                app:helperText="Apellido Materno"
+                app:helperTextEnabled="true"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/REGetApellidoM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/REGradAdmin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Administrador"/>
+                <RadioButton
+                    android:id="@+id/REGradVendedor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vendedores"/>
+            </RadioGroup>
 
             <Button
                 android:id="@+id/REGbtnRegistrarse"
@@ -144,7 +181,6 @@
                 android:backgroundTint="@color/azulM"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-
                 />
         </LinearLayout>
     </ScrollView>

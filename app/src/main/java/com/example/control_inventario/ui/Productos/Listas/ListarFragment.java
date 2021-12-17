@@ -43,7 +43,7 @@ public class ListarFragment extends Fragment {
     FirebaseAuth mAuth;
     ArrayList<Producto> productos = new ArrayList<Producto>();
 
-    ListView lvProductos;
+
     private ListarViewModel mViewModel;
 
 
@@ -57,7 +57,28 @@ public class ListarFragment extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_listar, container, false);
 
         asignaComponentes(root);
-        consultarDatos();
+        ListView lvProductos = root.findViewById(R.id.LISTPRODlvLista);
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        bdReference.child("Producto").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                productos.clear();
+                for (DataSnapshot objectSnapshot : snapshot.getChildren()) {
+                    productos.add(objectSnapshot.getValue(Producto.class));
+                    Log.d("tema_entro", "Entro "+ objectSnapshot.getKey().toString());
+                    //Log.d("tema_key", objectSnapshot.getKey().toString());
+                }
+                Log.d("tema_tamanio", String.valueOf(productos.size()));
+                adaptador = new AdaptadorProducto(productos,getContext());
+                lvProductos.setAdapter(adaptador);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("tema_fallo", error.getDetails());
+            }
+        });
+
 
         lvProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -90,7 +111,6 @@ public class ListarFragment extends Fragment {
     }
 
     public void asignaComponentes(View root){
-        lvProductos= root.findViewById(R.id.LISTPRODlvLista);
         mAuth = FirebaseAuth.getInstance();
         bdFire = FirebaseDatabase.getInstance();
         bdReference = bdFire.getReference();
@@ -98,30 +118,6 @@ public class ListarFragment extends Fragment {
 
 
 
-    public void consultarDatos() {
 
-
-        //tvTituloTem.setText(tema);
-        //Abecedario
-        FirebaseUser user = mAuth.getCurrentUser();
-        bdReference.child("Producto").child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                productos.clear();
-                for (DataSnapshot objectSnapshot : snapshot.getChildren()) {
-                    productos.add(objectSnapshot.getValue(Producto.class));
-                    Log.d("tema_entro", "Entro "+ objectSnapshot.getKey().toString());
-                    //Log.d("tema_key", objectSnapshot.getKey().toString());
-                }
-                Log.d("tema_tamanio", String.valueOf(productos.size()));
-                adaptador = new AdaptadorProducto(productos,getContext());
-                lvProductos.setAdapter(adaptador);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("tema_fallo", error.getDetails());
-            }
-        });
-    }
 
 }

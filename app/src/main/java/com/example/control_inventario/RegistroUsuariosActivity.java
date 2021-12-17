@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.control_inventario.Objetos.Usuario;
@@ -44,7 +45,8 @@ import java.util.UUID;
 
 public class RegistroUsuariosActivity extends AppCompatActivity {
     Button btnRegistrarse,btnFoto;
-    EditText etCorreo,etPass,etNombre,etTipo;
+    EditText etCorreo,etPass,etNombre,etApellidoP, etApellidoM;
+    RadioButton radAdministrador,radUsuario;
 
 
     ImageView ivFoto;
@@ -113,9 +115,15 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
                                                 //Log.d("id_us",bdMauth.getUid());
                                                 us.setId(bdMauth.getUid());
                                                 us.setNombre(etNombre.getText().toString().trim());
+                                                us.setApellidoP(etApellidoP.getText().toString().trim());
+                                                us.setApellidoM(etApellidoM.getText().toString().trim());
                                                 us.setCorreo(etCorreo.getText().toString().trim());
                                                 us.setPass(etPass.getText().toString().trim());
-                                                us.setTipo(etTipo.getText().toString().trim());
+                                                if(radAdministrador.isChecked()){
+                                                    us.setTipo("Administrador");
+                                                }else{
+                                                    us.setTipo("Vendedor");
+                                                }
                                                 us.setFoto(imagen);
                                                 dbReference.child("Usuario").child(us.getId()).setValue(us);
 
@@ -189,13 +197,17 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
         etCorreo = findViewById(R.id.REGetcorreo);
         etNombre = findViewById(R.id.REGetnombre);
         etPass = findViewById(R.id.REGetpass);
-        etTipo = findViewById(R.id.REGetTipo);
+        etApellidoP = findViewById(R.id.REGetApellidoP);
+        etApellidoM = findViewById(R.id.REGetApellidoM);
 
         bdMauth = FirebaseAuth.getInstance();
         dbReference = FirebaseDatabase.getInstance().getReference();
 
-
         ivFoto = findViewById(R.id.REGivFoto);
+
+        radAdministrador = findViewById(R.id.REGradAdmin);
+        radUsuario = findViewById(R.id.REGradVendedor);
+
 
     }
 
@@ -273,7 +285,7 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
         String correo =etCorreo.getText().toString();
         String pass = etCorreo.getText().toString();
         String nombre =etNombre.getText().toString();
-        String tipo = etTipo.getText().toString();
+
 
 
         if (correo.equals("")) {
@@ -285,11 +297,7 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
         }else if (nombre.equals("")){
         etNombre.setError("nombre Obligatorio");
             validado=false;
-       }else if (tipo.equals("")){
-            etTipo.setError("tipo Obligatorio");
-            validado=false;
-
-        } else if (photoUri==null){
+       } else if (photoUri==null){
             Toast.makeText(this, "imagen vacia", Toast.LENGTH_SHORT).show();
             validado = false;
 
