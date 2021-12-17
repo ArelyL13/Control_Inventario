@@ -30,7 +30,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.control_inventario.Objetos.Producto;
@@ -42,6 +44,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -68,7 +71,10 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
     private ModificarProdViewModel modViewModel;
     private FragmentModificarProdBinding binding;
     private Button MoButton,btnbuscar;
-    private EditText etNombre, etCantidad, etPrecio, etId;
+    private EditText etNombre, etCantidad, etPrecio, etId, etFechaCad;
+    private TextInputLayout extFechaCad;
+    private RadioButton radPerecedero, radNoperecedero;
+    ImageButton ibtnFecha;
     private ImageView miImagenView;
     private Uri fotoUri;
     private String ProductoB;
@@ -118,10 +124,12 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
     }
 
     private void ButtonComponent(View root) {
-        MoButton = root.findViewById(R.id.btnModifica);
+        MoButton = root.findViewById(R.id.MODbtnModifica);
         MoButton.setOnClickListener((View.OnClickListener)this);
         btnbuscar = root.findViewById(R.id.MODbtnBuscar);
         btnbuscar.setOnClickListener(this);
+        ibtnFecha = root.findViewById(R.id.MODibtnFecha);
+        ibtnFecha.setOnClickListener(this);
     }
 
     private void EditTextComponent(View root) {
@@ -129,17 +137,27 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         etCantidad = root.findViewById(R.id.MODetCantidad);
         etPrecio = root.findViewById(R.id.MODetPrecio);
         etId= root.findViewById(R.id.MODetId);
+        etFechaCad = root.findViewById(R.id.MODetFecha);
+        extFechaCad = root.findViewById(R.id.MODextID);
 
         miImagenView = root.findViewById(R.id.MODivFoto);
-    }
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+        radPerecedero = root.findViewById(R.id.MODradPerecedero);
+        radPerecedero.setOnClickListener(this);
+        radNoperecedero = root.findViewById(R.id.MODradNoPerecedero);
+        radNoperecedero.setOnClickListener(this);
+
 
     }
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int dayofMonth) {
+        etFechaCad.setText(dayofMonth+"/"+(month+1)+"/"+year);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnModifica:
+            case R.id.MODbtnModifica:
 
                 if (validarCampos()) {
                     //variables para subir imagen
@@ -182,6 +200,14 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                                     p.setCantidad(etCantidad.getText().toString().trim());
                                     p.setPrecio(etPrecio.getText().toString().trim());
                                     p.setFoto(imagen);
+                                    if(radPerecedero.isChecked()){
+                                        p.setTipo("Perecedero");
+                                        p.setCaducidad(etFechaCad.getText().toString().trim());
+
+                                    }else{
+                                        p.setTipo("No Perecedero");
+                                        p.setCaducidad("No Aplica");
+                                    }
 
                                     Toast.makeText(getContext(), "Modificaron Archivos", Toast.LENGTH_SHORT).show();
                                     Toast.makeText(getContext(), uri.toString(), Toast.LENGTH_SHORT).show();
@@ -241,6 +267,14 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                         etNombre.setText(prod.getNombre());
                         etCantidad.setText(prod.getCantidad());
                         etPrecio.setText(prod.getPrecio());
+                        etFechaCad.setText(prod.getCaducidad());
+                        if(prod.getTipo().equals("Perecedero")){
+                            radPerecedero.setChecked(true);
+                            activaFecha(true);
+                        }else{
+                            radNoperecedero.setChecked(true);
+                            activaFecha(false);
+                        }
                         Picasso.get().load( prod.getFoto() ).into( miImagenView );
                     }
                     @Override
@@ -248,11 +282,13 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
 
                     }
                 });
+                break;
+            case R.id.MODradPerecedero:
+                activaFecha(true);
 
-
-
-
-
+                break;
+            case R.id.MODradNoPerecedero:
+                activaFecha(false);
                 break;
             default:
                 Toast.makeText(getContext(), "Elemnto no encontrado", Toast.LENGTH_SHORT).show();
@@ -318,6 +354,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         }
     }
 
+
     private void limpiar () {
         etNombre.setText("");
         etCantidad.setText("");
@@ -325,5 +362,15 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
 
     }
 
-
+    private void activaFecha(boolean act){
+        if(act){
+            etFechaCad.setVisibility(View.VISIBLE);
+            extFechaCad.setVisibility(View.VISIBLE);
+            ibtnFecha.setVisibility(View.VISIBLE);
+        }else{
+            etFechaCad.setVisibility(View.GONE);
+            ibtnFecha.setVisibility(View.GONE);
+            extFechaCad.setVisibility(View.GONE);
+        }
+    }
 }

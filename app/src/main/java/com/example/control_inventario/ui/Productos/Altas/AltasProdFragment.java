@@ -30,7 +30,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.control_inventario.MainActivity;
@@ -43,6 +45,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -65,12 +68,20 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     private AltasProdViewModel altViewModel;
     private FragmentAltasProdBinding binding;
     private Button btnguarda;
-    private EditText etNombre, etCantidad, etPrecio;
+    private EditText etNombre, etCantidad, etPrecio, etFechaCad;
+    private TextInputLayout extFechaCad;
+    private RadioButton radPerecedero, radNoperecedero;
+    ImageButton ibtnFecha;
     private ImageView ivFoto;
     private Uri fotoUri;
     private Uri photoUri;
     public static String currentPhotoPath,img="", tamanio, tipSoft, urgencia;
     public static final int Request_TAKE_PHOTO = 1;
+
+
+    DatePickerDialog dpd;
+    Calendar c;
+    private static int anio,mes,dia;
 
     DatabaseReference dbReference;
     FirebaseAuth mAuth;
@@ -88,6 +99,8 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         componentes(root);
 
 
+
+
         return root;
     }
     private void componentes(View root){
@@ -98,25 +111,39 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         mAuth = FirebaseAuth.getInstance();
         dbReference = FirebaseDatabase.getInstance().getReference();
 
+
+        etFechaCad.setVisibility(View.GONE);
+        ibtnFecha.setVisibility(View.GONE);
+        extFechaCad.setVisibility(View.GONE);
+
     }
 
     private void ButtonComponent(View root) {
         btnguarda = root.findViewById(R.id.ALTbtnGuardar);
         btnguarda.setOnClickListener(this);
+        ibtnFecha = root.findViewById(R.id.ALTibtnFecha);
+        ibtnFecha.setOnClickListener(this);
     }
 
     private void EditTextComponent(View root) {
         etNombre = root.findViewById(R.id.AlTetProductoNom);
         etCantidad = root.findViewById(R.id.AlTetCantidad);
         etPrecio = root.findViewById(R.id.AlTetPrecio);
+        etFechaCad = root.findViewById(R.id.ALTetFecha);
+        extFechaCad = root.findViewById(R.id.ALTextID);
 
         ivFoto = root.findViewById(R.id.PALTivFoto);
+
+        radPerecedero = root.findViewById(R.id.ALTradPerecedero);
+        radPerecedero.setOnClickListener(this);
+        radNoperecedero = root.findViewById(R.id.ALTradNoPerecedero);
+        radNoperecedero.setOnClickListener(this);
     }
 
 
     @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-
+    public void onDateSet(DatePicker datePicker, int year, int month, int dayofMonth) {
+        etFechaCad.setText(dayofMonth+"/"+(month+1)+"/"+year);
     }
 
     @Override
@@ -172,8 +199,16 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                                         p.setNombre(etNombre.getText().toString());
                                         p.setCantidad(etCantidad.getText().toString());
                                         p.setPrecio(etPrecio.getText().toString());
-                                        p.setFoto(imagen);
+                                        if(radPerecedero.isChecked()){
+                                            p.setTipo("Perecedero");
+                                            p.setCaducidad(etFechaCad.getText().toString().trim());
 
+                                        }else{
+                                            p.setTipo("No Perecedero");
+                                            p.setCaducidad("No Aplica");
+                                        }
+                                        //p.setCaducidad(etFechaCad.getText().toString().trim());
+                                        p.setFoto(imagen);
                                         Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
                                         Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
                                         dbReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
@@ -227,6 +262,27 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                     Toast.makeText(getContext(), "Fotografia, No entra al proceso", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.ALTibtnFecha:
+                c = Calendar.getInstance();
+                anio=c.get(Calendar.YEAR);
+                mes = c.get(Calendar.MONTH);
+                dia = c.get(Calendar.DAY_OF_MONTH);
+                dpd = new DatePickerDialog(getContext(),this,anio,mes,dia);
+                dpd.show();
+                break;
+            case R.id.ALTradPerecedero:
+                etFechaCad.setVisibility(View.VISIBLE);
+                extFechaCad.setVisibility(View.VISIBLE);
+                ibtnFecha.setVisibility(View.VISIBLE);
+                break;
+            case R.id.ALTradNoPerecedero:
+                etFechaCad.setVisibility(View.GONE);
+                ibtnFecha.setVisibility(View.GONE);
+                extFechaCad.setVisibility(View.GONE);
+                break;
+
+
+
             default:
                 Toast.makeText(getContext(), "Elemnto no encontrado", Toast.LENGTH_SHORT).show();
         }
@@ -261,6 +317,11 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+
+
+
+
     private File createImageFile() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFilename = "FP_"+timestamp+"_";

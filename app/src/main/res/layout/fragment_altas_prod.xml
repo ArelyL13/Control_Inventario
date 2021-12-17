@@ -125,27 +125,57 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/ALTradPerecedero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Perecedero"/>
+                <RadioButton
+                    android:id="@+id/ALTradNoPerecedero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No Perecedero"/>
+            </RadioGroup>
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/cardview_default_radius"
-            android:hint="Ingresa el precio"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/orange"
-            app:endIconMode="clear_text"
-            android:layout_marginTop="60dp"
-            app:helperText="Precio"
-            app:helperTextEnabled="true"
-            >
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ALTetCaducidad"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ALTextID"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ALTetFecha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha de caducidad"
+                    android:inputType="date" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/ALTibtnFecha"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_menu_gallery"
+                android:contentDescription="@string/descripcion"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
 
             <Button
                 android:id="@+id/ALTbtnGuardar"

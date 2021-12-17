@@ -308,7 +308,7 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
     }
     private void limpiar(){
         etNombre.setText("");
-        etTipo.setText("");
+
         etCorreo.setText("");
         etPass.setText("");
     }
