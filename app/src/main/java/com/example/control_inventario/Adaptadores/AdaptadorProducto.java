@@ -68,8 +68,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
     });
 
 
-
-
     }
 
     @Override
