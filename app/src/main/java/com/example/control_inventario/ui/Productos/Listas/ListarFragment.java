@@ -1,5 +1,6 @@
 package com.example.control_inventario.ui.Productos.Listas;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
@@ -8,7 +9,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +28,7 @@ import com.example.control_inventario.Adaptadores.AdaptadorProducto;
 import com.example.control_inventario.MainActivity;
 import com.example.control_inventario.Objetos.Producto;
 import com.example.control_inventario.R;
+import com.example.control_inventario.databinding.FragmentListarBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,18 +39,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ListarFragment extends Fragment {
 
     private DatabaseReference bdReference;
     private FirebaseDatabase bdFire;
-    private AdaptadorProducto adaptador;
-    FirebaseAuth mAuth;
-    ArrayList<Producto> productos = new ArrayList<Producto>();
 
-
-    private ListarViewModel mViewModel;
-
+    ArrayList<Producto>list;
+    RecyclerView rv;
+    SearchView searchView;
+    AdaptadorProducto adapter;
+    LinearLayoutManager lm;
+    private ListarViewModel lViewModel;
+ FragmentListarBinding binding;
 
     public static ListarFragment newInstance() {
         return new ListarFragment();
@@ -54,67 +61,73 @@ public class ListarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.fragment_listar, container, false);
-
-        asignaComponentes(root);
-        ListView lvProductos = root.findViewById(R.id.LISTPRODlvLista);
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        bdReference.child("Producto").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+       // View root =  inflater.inflate(R.layout.fragment_listar, container, false);
+         lViewModel= new ViewModelProvider(this).get(ListarViewModel.class);
+       binding=FragmentListarBinding.inflate(inflater,container,false);
+       View root= binding.getRoot();
+        bdReference=FirebaseDatabase.getInstance().getReference().child("Producto");
+         rv=root.findViewById(R.id.rv);
+         searchView=root.findViewById(R.id.search);
+         lm= new LinearLayoutManager(getContext());
+         rv.setLayoutManager(lm);
+         list=new ArrayList<>();
+         adapter= new AdaptadorProducto(list);
+         rv.setAdapter(adapter);
+        bdReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                productos.clear();
-                for (DataSnapshot objectSnapshot : snapshot.getChildren()) {
-                    productos.add(objectSnapshot.getValue(Producto.class));
-                    Log.d("tema_entro", "Entro "+ objectSnapshot.getKey().toString());
-                    //Log.d("tema_key", objectSnapshot.getKey().toString());
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        Producto p = snapshot.getValue(Producto.class);
+                        list.add(p);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
-                Log.d("tema_tamanio", String.valueOf(productos.size()));
-                adaptador = new AdaptadorProducto(productos,getContext());
-                lvProductos.setAdapter(adaptador);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("tema_fallo", error.getDetails());
+
             }
         });
 
-
-        lvProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), "Entrando al adapter view", Toast.LENGTH_SHORT).show();
-                View dialogoView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_mostrar,null);
-                ((TextView)dialogoView.findViewById(R.id.DIAPRODtvNombre)).setText(productos.get(i).getNombre());
-                ((TextView)dialogoView.findViewById(R.id.DIAPRODId)).setText(productos.get(i).getId());
-                ((TextView)dialogoView.findViewById(R.id.DIAPRODCantidad)).setText(productos.get(i).getCantidad());
-                ((TextView)dialogoView.findViewById(R.id.DIAPRODPrecio)).setText(productos.get(i).getPrecio());
-                ImageView ivImageView = dialogoView.findViewById(R.id.DIAPRODivFoto);
-                Picasso.get().load( productos.get(i).getFoto()).into( ivImageView );
+            public boolean onQueryTextSubmit(String query) {
 
+                return false;
+            }
 
-                AlertDialog.Builder dialogo = new AlertDialog.Builder(getContext());
-                dialogo.setTitle("Producto");
-                dialogo.setView(dialogoView);
-                dialogo.show();
+            @Override
+            public boolean onQueryTextChange(String s) {
+                buscar(s);
+                return false;
             }
         });
+
 
         return root;
     }
+    private void buscar(String s) {
+        ArrayList<Producto>milista = new ArrayList<>();
+        for (Producto obj: list){
+            if (obj.getNombre().toLowerCase().contains(s.toLowerCase()));
+            milista.add(obj);
+        }
+        AdaptadorProducto adapter= new AdaptadorProducto(milista);
+        rv.setAdapter(adapter);
+    }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ListarViewModel.class);
+        lViewModel = new ViewModelProvider(this).get(ListarViewModel.class);
         // TODO: Use the ViewModel
     }
 
-    public void asignaComponentes(View root){
-        mAuth = FirebaseAuth.getInstance();
-        bdFire = FirebaseDatabase.getInstance();
-        bdReference = bdFire.getReference();
-    }
+
 
 
 
