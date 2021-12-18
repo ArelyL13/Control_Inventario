@@ -6,13 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/browser_actions_bg_grey"
         android:layout_margin="10dp"
+
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -39,10 +38,11 @@
 
                 <ImageView
                     android:id="@+id/ITMPRODivImagen"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_gravity="center"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
                     app:srcCompat="@drawable/ic_menu_camera" />
 
                 <LinearLayout
@@ -61,8 +61,8 @@
                             android:layout_height="wrap_content"
                             android:text="Precio:"
                             android:textColor="@color/black"
-                            android:layout_marginRight="20dp"
-                            android:gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:gravity="left"
                             />
                         <TextView
                             android:id="@+id/ITMPRODtvPrecio"
@@ -84,8 +84,8 @@
                             android:layout_height="wrap_content"
                             android:text="Cantidad:"
                             android:textColor="@color/black"
-                            android:layout_marginRight="20dp"
-                            android:gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:gravity="left"
                             />
                         <TextView
                             android:id="@+id/ITMPRODtvCantidad"
@@ -106,8 +106,8 @@
                             android:layout_height="wrap_content"
                             android:text="Caducidad:"
                             android:textColor="@color/black"
-                            android:layout_marginRight="20dp"
-                            android:gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:gravity="left"
                             />
                         <TextView
                             android:id="@+id/ITMPRODtvCaducidad"

@@ -1,6 +1,7 @@
 package com.example.control_inventario.Adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,6 +47,25 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
      holder.tv_cantidad.setText(p.getCantidad());
      holder.tv_caducidad.setText(p.getCaducidad());
      Picasso.get().load( p.getFoto() ).into(holder.img1);
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            View dialogoView = LayoutInflater.from(view.getContext()).inflate(R.layout.dialog_producto,null);
+            ((TextView)dialogoView.findViewById(R.id.ITDIALOGtvNombre)).setText(p.getNombre());
+            ((TextView)dialogoView.findViewById(R.id.ITDIALOGtvPrecio)).setText(p.getPrecio());
+            ((TextView)dialogoView.findViewById(R.id.ITDIALOGtvCantidad)).setText(p.getCantidad());
+            ((TextView)dialogoView.findViewById(R.id.ITDIALOGtvCaducidad)).setText(p.getCaducidad());
+
+            ImageView ivImageView = dialogoView.findViewById(R.id.DIAPRODivFoto);
+
+            Picasso.get().load( p.getFoto()).into((ImageView) dialogoView.findViewById(R.id.ITDIALOGDivImagen));
+            AlertDialog.Builder dialogo = new AlertDialog.Builder(view.getContext());
+            dialogo.setTitle("Producto");
+            dialogo.setView(dialogoView);
+            dialogo.setPositiveButton("Aceptar ", null);
+            dialogo.show();
+        }
+    });
 
 
 

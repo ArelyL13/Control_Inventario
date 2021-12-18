@@ -3,15 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/activity_login.xml" value="0.1125" />
+        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/activity_registro_usuarios.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/app_bar_main.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/content_main.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/dialog_producto.xml" value="0.1" />
         <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/fragment_altas_prod.xml" value="0.25" />
         <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/fragment_listar.xml" value="0.22447916666666667" />
-        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/fragment_modificar_prod.xml" value="0.16822916666666668" />
-        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/item_producto.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/fragment_modificar_prod.xml" value="0.33" />
+        <entry key="..\:/Users/Areli/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/item_producto.xml" value="0.33" />
         <entry key="..\:/Users/JParra/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/JParra/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/activity_main.xml" value="0.103125" />
         <entry key="..\:/Users/JParra/AndroidStudioProjects/Control_Inventario/app/src/main/res/layout/activity_registro.xml" value="0.1796875" />

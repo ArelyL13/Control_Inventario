@@ -71,6 +71,7 @@ public class ListarFragment extends Fragment {
        searchView=root.findViewById(R.id.search);
        lm= new LinearLayoutManager(getContext());
        rv.setLayoutManager(lm);
+
        list=new ArrayList<>();
        adapter= new AdaptadorProducto(list);
        rv.setAdapter(adapter);
