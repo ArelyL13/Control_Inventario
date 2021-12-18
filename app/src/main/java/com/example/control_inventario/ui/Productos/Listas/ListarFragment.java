@@ -62,7 +62,7 @@ public class ListarFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
        // View root =  inflater.inflate(R.layout.fragment_listar, container, false);
-         lViewModel= new ViewModelProvider(this).get(ListarViewModel.class);
+        // lViewModel= new ViewModelProvider(this).get(ListarViewModel.class);
        binding=FragmentListarBinding.inflate(inflater,container,false);
        View root= binding.getRoot();
         bdReference=FirebaseDatabase.getInstance().getReference().child("Producto");

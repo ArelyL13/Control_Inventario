@@ -45,6 +45,9 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
      holder.tv_precio.setText(p.getPrecio());
      holder.tv_cantidad.setText(p.getCantidad());
      holder.tv_caducidad.setText(p.getCaducidad());
+     Picasso.get().load( p.getFoto() ).into(holder.img1);
+
+
 
 
     }
@@ -66,6 +69,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
             tv_precio=itemView.findViewById(R.id.ITMPRODtvPrecio);
             tv_cantidad=itemView.findViewById(R.id.ITMPRODtvCantidad);
             tv_caducidad=itemView.findViewById(R.id.ITMPRODtvCaducidad);
+
 
 
 
