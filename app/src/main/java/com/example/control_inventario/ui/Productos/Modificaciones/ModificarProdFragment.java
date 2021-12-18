@@ -38,7 +38,7 @@ import android.widget.Toast;
 import com.example.control_inventario.Objetos.Producto;
 import com.example.control_inventario.Objetos.Usuario;
 import com.example.control_inventario.R;
-import com.example.control_inventario.databinding.FragmentModificarProdBinding;
+
 import com.example.control_inventario.databinding.FragmentModificarProdBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
