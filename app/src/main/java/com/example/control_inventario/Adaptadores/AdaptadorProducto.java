@@ -40,7 +40,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
     @Override
     public void onBindViewHolder(@NonNull viewholderproductos holder, int position) {
      Producto p = productoList.get(position);
-
      holder.tv_nombre.setText(p.getNombre());
      holder.tv_precio.setText(p.getPrecio());
      holder.tv_cantidad.setText(p.getCantidad());
@@ -69,10 +68,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
             tv_precio=itemView.findViewById(R.id.ITMPRODtvPrecio);
             tv_cantidad=itemView.findViewById(R.id.ITMPRODtvCantidad);
             tv_caducidad=itemView.findViewById(R.id.ITMPRODtvCaducidad);
-
-
-
-
         }
     }
 }

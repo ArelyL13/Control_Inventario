@@ -52,7 +52,7 @@ public class ListarFragment extends Fragment {
     AdaptadorProducto adapter;
     LinearLayoutManager lm;
     private ListarViewModel lViewModel;
- FragmentListarBinding binding;
+    FragmentListarBinding binding;
 
     public static ListarFragment newInstance() {
         return new ListarFragment();
@@ -65,14 +65,58 @@ public class ListarFragment extends Fragment {
         // lViewModel= new ViewModelProvider(this).get(ListarViewModel.class);
        binding=FragmentListarBinding.inflate(inflater,container,false);
        View root= binding.getRoot();
-        bdReference=FirebaseDatabase.getInstance().getReference().child("Producto");
-         rv=root.findViewById(R.id.rv);
-         searchView=root.findViewById(R.id.search);
-         lm= new LinearLayoutManager(getContext());
-         rv.setLayoutManager(lm);
-         list=new ArrayList<>();
-         adapter= new AdaptadorProducto(list);
-         rv.setAdapter(adapter);
+
+       bdReference=FirebaseDatabase.getInstance().getReference().child("Producto");
+       rv=root.findViewById(R.id.rv);
+       searchView=root.findViewById(R.id.search);
+       lm= new LinearLayoutManager(getContext());
+       rv.setLayoutManager(lm);
+       list=new ArrayList<>();
+       adapter= new AdaptadorProducto(list);
+       rv.setAdapter(adapter);
+       buscarTodo();
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                buscar(s);
+                Log.d("texto",s);
+                Log.d("entro","ya entro");
+                return false;
+            }
+        });
+
+
+        return root;
+    }
+    private void buscar(String s) {
+        ArrayList<Producto>milista = new ArrayList<>();
+        for (Producto obj: list){
+            if (obj.getNombre().toLowerCase().contains(s.toLowerCase())) {
+                milista.add(obj);
+            }
+        }
+        AdaptadorProducto adapter= new AdaptadorProducto(milista);
+        rv.setAdapter(adapter);
+    }
+
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        lViewModel = new ViewModelProvider(this).get(ListarViewModel.class);
+        // TODO: Use the ViewModel
+    }
+
+    public void buscarTodo(){
         bdReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -90,41 +134,6 @@ public class ListarFragment extends Fragment {
 
             }
         });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                buscar(s);
-                return false;
-            }
-        });
-
-
-        return root;
-    }
-    private void buscar(String s) {
-        ArrayList<Producto>milista = new ArrayList<>();
-        for (Producto obj: list){
-            if (obj.getNombre().toLowerCase().contains(s.toLowerCase()));
-            milista.add(obj);
-        }
-        AdaptadorProducto adapter= new AdaptadorProducto(milista);
-        rv.setAdapter(adapter);
-    }
-
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        lViewModel = new ViewModelProvider(this).get(ListarViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 
