@@ -212,7 +212,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                                     Toast.makeText(getContext(), "Modificaron Archivos", Toast.LENGTH_SHORT).show();
                                     Toast.makeText(getContext(), uri.toString(), Toast.LENGTH_SHORT).show();
                                     //generar alta
-                                    bdReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
+                                    bdReference.child("Producto").child(p.getId()).setValue(p);
                                     Toast.makeText(getContext(), "Producto Modificado", Toast.LENGTH_SHORT).show();
                                     limpiar();
                                 }

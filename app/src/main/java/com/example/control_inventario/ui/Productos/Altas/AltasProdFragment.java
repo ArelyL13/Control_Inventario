@@ -211,7 +211,7 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                                         p.setFoto(imagen);
                                         Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
                                         Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
-                                        dbReference.child("Producto").child(user.getUid()).child(p.getId()).setValue(p);
+                                        dbReference.child("Producto").child(p.getId()).setValue(p);
                                         Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
                                         limpiar();
                                     }else{

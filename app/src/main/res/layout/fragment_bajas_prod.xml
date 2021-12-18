@@ -129,6 +129,14 @@
                     android:layout_height="wrap_content"
                     android:text="Precio"
                     android:textSize="30dp"/>
+
+
+                <TextView
+                    android:id="@+id/PRODBAJAtvFecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Precio"
+                    android:textSize="30dp"/>
             </LinearLayout>
 
 

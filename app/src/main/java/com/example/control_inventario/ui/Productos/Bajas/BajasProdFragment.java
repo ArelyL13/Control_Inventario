@@ -30,7 +30,7 @@ import com.squareup.picasso.Picasso;
 
 public class BajasProdFragment extends Fragment {
 
-    TextView tvnombre,tvprecio,tvcantidad;
+    TextView tvnombre,tvprecio,tvcantidad,tvFecha;
     EditText etid;
     Button btnBuscar,btnEliminar;
     ImageView ivfoto;
@@ -54,15 +54,19 @@ public class BajasProdFragment extends Fragment {
         tvnombre = root.findViewById(R.id.PRODBAJAtvNombre);
         tvprecio = root.findViewById(R.id.PRODBAJAtvPrecio);
         tvcantidad = root.findViewById(R.id.PRODBAJAtvCantidad);
+        tvFecha = root.findViewById(R.id.PRODBAJAtvFecha);
+        tvFecha.setVisibility(View.GONE);
+
         etid = root.findViewById(R.id.PRODBAJAetId);
         bdReference = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
         btnBuscar = root.findViewById(R.id.PRODBAJAbtnBuscar);
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bdReference.child("Producto").child(user.getUid()).child(etid.getText().toString()).addValueEventListener(new ValueEventListener() {
+                bdReference.child("Producto").child(etid.getText().toString()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         prod = snapshot.getValue(Producto.class);
@@ -70,6 +74,12 @@ public class BajasProdFragment extends Fragment {
                             tvnombre.setText(prod.getNombre());
                             tvcantidad.setText(prod.getCantidad());
                             tvprecio.setText(prod.getPrecio());
+
+                            if(prod.getTipo().equals("Perecedero")){
+                                tvFecha.setText(prod.getCaducidad());
+                                tvFecha.setVisibility(View.VISIBLE);
+
+                            }
                             Picasso.get().load( prod.getFoto() ).into( ivfoto );
                             //Toast.makeText(getContext(), prod.getFoto(), Toast.LENGTH_SHORT).show();
                         }
@@ -89,7 +99,7 @@ public class BajasProdFragment extends Fragment {
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bdReference.child("Producto").child(user.getUid()).child(prod.getId()).removeValue();
+                bdReference.child("Producto").child(prod.getId()).removeValue();
                 Toast.makeText(getContext(), "Eliminado", Toast.LENGTH_SHORT).show();
                 prod= null;
                 etid.setText("");
