@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -65,16 +66,36 @@ public class ListarFragment extends Fragment {
         // lViewModel= new ViewModelProvider(this).get(ListarViewModel.class);
        binding=FragmentListarBinding.inflate(inflater,container,false);
        View root= binding.getRoot();
-
+       adapter= new AdaptadorProducto(list);
        bdReference=FirebaseDatabase.getInstance().getReference().child("Producto");
        rv=root.findViewById(R.id.rv);
        searchView=root.findViewById(R.id.search);
        lm= new LinearLayoutManager(getContext());
        rv.setLayoutManager(lm);
        list=new ArrayList<>();
-       adapter= new AdaptadorProducto(list);
+
        rv.setAdapter(adapter);
        buscarTodo();
+
+
+       rv.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+           @Override
+           public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+               return false;
+           }
+
+           @Override
+           public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+           }
+
+           @Override
+           public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+           }
+       });
+
+
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
