@@ -142,13 +142,13 @@ public class ListarFragment extends Fragment {
         bdReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                         Producto p = snapshot.getValue(Producto.class);
                         list.add(p);
                     }
                     adapter.notifyDataSetChanged();
-                }
+                AdaptadorProducto adapter= new AdaptadorProducto(list);
+                rv.setAdapter(adapter);
             }
 
             @Override
