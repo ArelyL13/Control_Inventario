@@ -76,6 +76,8 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
 
     }
 
+
+
     public class viewholderproductos extends RecyclerView.ViewHolder {
         TextView tv_nombre, tv_precio, tv_cantidad, tv_caducidad;
         ImageView img1;

@@ -301,14 +301,17 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
        } else if (photoUri==null){
             Toast.makeText(this, "imagen vacia", Toast.LENGTH_SHORT).show();
             validado = false;
+        }
 
+        if (!radUsuario.isChecked() && !radAdministrador.isChecked()){
+            Toast.makeText(this, "Seleccione un tipo de usuario", Toast.LENGTH_SHORT).show();
+            validado = false;
         }
 
         return validado;
     }
     private void limpiar(){
         etNombre.setText("");
-
         etCorreo.setText("");
         etPass.setText("");
     }

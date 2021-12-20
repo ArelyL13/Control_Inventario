@@ -35,7 +35,7 @@
         tools:layout="@layout/fragment_modificar_prod" />
     <fragment
         android:id="@+id/nav_ventaN"
-        android:name="com.example.control_inventario.ui.Productos.Ventas.VentasFragment"
+        android:name="com.example.control_inventario.ui.Productos.Ventas.VentasProdFragment"
         android:label="Lista"
         tools:layout="@layout/fragment_ventas" />
 </navigation>

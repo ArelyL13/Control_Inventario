@@ -2,26 +2,25 @@ package com.example.control_inventario.ui.Productos.Ventas;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import com.example.control_inventario.Adaptadores.AdaptadorProducto;
+
 import com.example.control_inventario.Adaptadores.AdaptadorProductovent;
 import com.example.control_inventario.Objetos.Producto;
 import com.example.control_inventario.R;
-import com.example.control_inventario.databinding.FragmentListarBinding;
 import com.example.control_inventario.databinding.FragmentVentasBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +37,7 @@ public class VentasFragment extends Fragment {
     SearchView searchV;
     AdaptadorProductovent  adapter;
     LinearLayoutManager lm;
+    Button btnVenta;
     private VentasViewModel mViewModel;
    FragmentVentasBinding binding;
 
@@ -59,6 +59,20 @@ public class VentasFragment extends Fragment {
         rv.setLayoutManager(lm);
 
         listV=new ArrayList<>();
+
+        btnVenta = root.findViewById(R.id.VENTbtnVenta);
+        btnVenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getContext(), String.valueOf(adapter.getItemId(1)), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), String.valueOf(adapter.getNombre()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), String.valueOf(adapter.getId()), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
 
         rv.setAdapter(adapter);
         buscarTodo();
@@ -104,8 +118,9 @@ public class VentasFragment extends Fragment {
                 milista.add(obj);
             }
         }
-        AdaptadorProducto adapter= new AdaptadorProducto(milista);
+        adapter = new AdaptadorProductovent(milista);
         rv.setAdapter(adapter);
+
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -122,14 +137,17 @@ public class VentasFragment extends Fragment {
                     listV.add(p);
                 }
                 adapter.notifyDataSetChanged();
-                AdaptadorProductovent adapter= new AdaptadorProductovent(listV);
+                adapter= new AdaptadorProductovent(listV);
                 rv.setAdapter(adapter);
+                Toast.makeText(getContext(), "ID_PROD", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
+
+
+
 }

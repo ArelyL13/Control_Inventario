@@ -4,7 +4,6 @@ import android.hardware.lights.LightState;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -21,6 +20,7 @@ import java.util.List;
 
 public class AdaptadorProductovent extends RecyclerView.Adapter<AdaptadorProductovent.viewholderproductosvent> {
     List<Producto>productovntList;
+    Producto prod;
 
     public AdaptadorProductovent(List<Producto> productovntList) {
         this.productovntList = productovntList;
@@ -37,10 +37,13 @@ public class AdaptadorProductovent extends RecyclerView.Adapter<AdaptadorProduct
     @Override
     public void onBindViewHolder(@NonNull viewholderproductosvent holder, int position) {
         Producto p = productovntList.get(position);
+        prod = productovntList.get(position);
         holder.tv_nombre.setText(p.getNombre());
         holder.tv_precio.setText(p.getPrecio());
+        //holder.rb.toggle();
         holder.cantidad.setText("");
         Picasso.get().load( p.getFoto() ).into(holder.img1);
+
 
     }
     @Override
@@ -52,11 +55,19 @@ public class AdaptadorProductovent extends RecyclerView.Adapter<AdaptadorProduct
         }
     }
 
+    public String  getId() {
+        return prod.getId();
+    }
+
+    public String getNombre(){
+        return prod.getNombre();
+    }
+
 
     public class viewholderproductosvent extends RecyclerView.ViewHolder {
         TextView tv_nombre, tv_precio;
         EditText cantidad;
-        CheckBox cb;
+        RadioButton rb;
         ImageView img1;
         public viewholderproductosvent(@NonNull View itemView) {
             super(itemView);
@@ -64,7 +75,7 @@ public class AdaptadorProductovent extends RecyclerView.Adapter<AdaptadorProduct
             tv_nombre=itemView.findViewById(R.id.ITVENTAtvNombre);
             tv_precio=itemView.findViewById(R.id.ITVENTAtvPrecio);
             cantidad=itemView.findViewById(R.id.ETVENTAcantidad);
-            cb=itemView.findViewById(R.id.CBVENTAS);
+            //rb=itemView.findViewById(R.id.RBtnVENTAagregar);
 
         }
     }

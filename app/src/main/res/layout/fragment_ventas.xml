@@ -17,17 +17,26 @@
         android:textSize="30dp"
         android:gravity="center"
         />
+
+    <Button
+        android:id="@+id/VENTbtnVenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generar Venta"
+        android:layout_gravity="center_horizontal"/>
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search2"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/rv2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
     />
+
+
 </LinearLayout>
 
 </FrameLayout>
