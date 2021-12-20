@@ -13,6 +13,7 @@
     <!--Login-->
     <string name="bienvenida">Bienvenido a control</string>
     <string name="ingresar_datos">Ingresa tus datos</string>
+    <string name="modificar_datos">Modifica tus datos</string>
     <string name="registrarse">Registrarse</string>
     <string name="correo">Correo</string>
     <string name="pass">Contraseña</string>

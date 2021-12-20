@@ -119,10 +119,13 @@ public class RegistroUsuariosActivity extends AppCompatActivity {
                                                 us.setApellidoM(etApellidoM.getText().toString().trim());
                                                 us.setCorreo(etCorreo.getText().toString().trim());
                                                 us.setPass(etPass.getText().toString().trim());
+                                                Toast.makeText(RegistroUsuariosActivity.this, "radAdministrador.isChecked()", Toast.LENGTH_SHORT).show();
                                                 if(radAdministrador.isChecked()){
                                                     us.setTipo("Administrador");
+                                                    Toast.makeText(RegistroUsuariosActivity.this, "Entro Admin", Toast.LENGTH_SHORT).show();
                                                 }else{
                                                     us.setTipo("Vendedor");
+                                                    Toast.makeText(RegistroUsuariosActivity.this, "Entro Vendedor", Toast.LENGTH_SHORT).show();
                                                 }
                                                 us.setFoto(imagen);
                                                 dbReference.child("Usuario").child(us.getId()).setValue(us);
