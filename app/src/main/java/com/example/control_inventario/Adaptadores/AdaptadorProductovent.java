@@ -4,6 +4,7 @@ import android.hardware.lights.LightState;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -38,7 +39,6 @@ public class AdaptadorProductovent extends RecyclerView.Adapter<AdaptadorProduct
         Producto p = productovntList.get(position);
         holder.tv_nombre.setText(p.getNombre());
         holder.tv_precio.setText(p.getPrecio());
-        holder.rb.toggle();
         holder.cantidad.setText("");
         Picasso.get().load( p.getFoto() ).into(holder.img1);
 
@@ -56,7 +56,7 @@ public class AdaptadorProductovent extends RecyclerView.Adapter<AdaptadorProduct
     public class viewholderproductosvent extends RecyclerView.ViewHolder {
         TextView tv_nombre, tv_precio;
         EditText cantidad;
-        RadioButton rb;
+        CheckBox cb;
         ImageView img1;
         public viewholderproductosvent(@NonNull View itemView) {
             super(itemView);
@@ -64,7 +64,7 @@ public class AdaptadorProductovent extends RecyclerView.Adapter<AdaptadorProduct
             tv_nombre=itemView.findViewById(R.id.ITVENTAtvNombre);
             tv_precio=itemView.findViewById(R.id.ITVENTAtvPrecio);
             cantidad=itemView.findViewById(R.id.ETVENTAcantidad);
-            rb=itemView.findViewById(R.id.RBtnVENTAagregar);
+            cb=itemView.findViewById(R.id.CBVENTAS);
 
         }
     }
