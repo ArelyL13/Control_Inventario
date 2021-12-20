@@ -52,6 +52,7 @@ public class AdaptadorProductovent extends RecyclerView.Adapter<AdaptadorProduct
         }
     }
 
+
     public class viewholderproductosvent extends RecyclerView.ViewHolder {
         TextView tv_nombre, tv_precio;
         EditText cantidad;
