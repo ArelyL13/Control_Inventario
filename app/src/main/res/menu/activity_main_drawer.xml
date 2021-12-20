@@ -28,5 +28,11 @@
             android:id="@+id/nav_ventaN"
             android:icon="@drawable/ic_venta"
             android:title="Nueva venta" />
+
+        <item
+            android:id="@+id/nav_Usuario"
+            android:icon="@drawable/ic_venta"
+            android:title="Usuario" />
+
     </group>
 </menu>
