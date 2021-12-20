@@ -23,6 +23,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.viewholderproductos>{
     List<Producto> productoList;
 
@@ -47,7 +48,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
      holder.tv_cantidad.setText(p.getCantidad());
      holder.tv_caducidad.setText(p.getCaducidad());
      Picasso.get().load( p.getFoto() ).into(holder.img1);
-    holder.itemView.setOnClickListener(new View.OnClickListener() {
+     holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             View dialogoView = LayoutInflater.from(view.getContext()).inflate(R.layout.dialog_producto,null);
@@ -55,9 +56,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
             ((TextView)dialogoView.findViewById(R.id.ITDIALOGtvPrecio)).setText(p.getPrecio());
             ((TextView)dialogoView.findViewById(R.id.ITDIALOGtvCantidad)).setText(p.getCantidad());
             ((TextView)dialogoView.findViewById(R.id.ITDIALOGtvCaducidad)).setText(p.getCaducidad());
-
             ImageView ivImageView = dialogoView.findViewById(R.id.DIAPRODivFoto);
-
             Picasso.get().load( p.getFoto()).into((ImageView) dialogoView.findViewById(R.id.ITDIALOGDivImagen));
             AlertDialog.Builder dialogo = new AlertDialog.Builder(view.getContext());
             dialogo.setTitle("Producto");
@@ -66,10 +65,7 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
             dialogo.show();
         }
     });
-
-
     }
-
     @Override
     public int getItemCount() {
          if(productoList == null){
@@ -83,8 +79,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<AdaptadorProducto.vi
     public class viewholderproductos extends RecyclerView.ViewHolder {
         TextView tv_nombre, tv_precio, tv_cantidad, tv_caducidad;
         ImageView img1;
-
-
         public viewholderproductos(@NonNull View itemView) {
             super(itemView);
             img1 = itemView.findViewById(R.id.ITMPRODivImagen);

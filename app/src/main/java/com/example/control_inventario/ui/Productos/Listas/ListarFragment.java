@@ -45,7 +45,6 @@ import java.util.Locale;
 public class ListarFragment extends Fragment {
 
     private DatabaseReference bdReference;
-    private FirebaseDatabase bdFire;
 
     ArrayList<Producto>list;
     RecyclerView rv;

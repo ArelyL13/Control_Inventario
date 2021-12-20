@@ -5,6 +5,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.Productos.Ventas.VentasFragment">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nueva venta"
+        android:textColor="@color/orange"
+        android:textSize="30dp"
+        android:gravity="center"
+        />
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search2"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    />
+</LinearLayout>
 
 </FrameLayout>

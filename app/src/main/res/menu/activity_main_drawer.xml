@@ -24,5 +24,9 @@
             android:id="@+id/nav_Lista"
             android:icon="@drawable/ic_list"
             android:title="Lista" />
+        <item
+            android:id="@+id/nav_ventaN"
+            android:icon="@drawable/ic_venta"
+            android:title="Nueva venta" />
     </group>
 </menu>
