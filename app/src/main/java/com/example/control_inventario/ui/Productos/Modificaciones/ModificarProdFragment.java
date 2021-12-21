@@ -267,6 +267,28 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
 
                 bdReference.child("Producto").child(etId.getText().toString()).addValueEventListener(new ValueEventListener() {
                     @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            Producto p = snapshot.getValue(Producto.class);
+                            if(etId.getText().toString().equals(p.getNombre())){
+                                prod = snapshot.getValue(Producto.class);
+                                etNombre.setText(prod.getNombre());
+                                etCantidad.setText(prod.getCantidad());
+                                etPrecio.setText(prod.getPrecio());
+                                etFechaCad.setText(prod.getCaducidad());
+                                if(prod.getTipo().equals("Perecedero")){
+                                    radPerecedero.setChecked(true);
+                                    activaFecha(true);
+                                }else{
+                                    radNoperecedero.setChecked(true);
+                                    activaFecha(false);
+                                }
+                                Picasso.get().load( prod.getFoto() ).into( miImagenView );
+                            }
+                        }
+                    }
+                    /**
+                    @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         prod = snapshot.getValue(Producto.class);
                         etNombre.setText(prod.getNombre());
@@ -282,6 +304,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                         }
                         Picasso.get().load( prod.getFoto() ).into( miImagenView );
                     }
+                     **/
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
