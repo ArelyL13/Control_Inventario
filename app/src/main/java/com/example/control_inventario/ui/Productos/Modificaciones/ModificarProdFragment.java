@@ -108,7 +108,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         // return inflater.inflate(R.layout.fragment_altas_prod, container, false);
         modViewModel= new ViewModelProvider(this).get(ModificarProdViewModel.class);
         binding= FragmentModificarProdBinding.inflate(inflater,container,false);
-        bdReference=FirebaseDatabase.getInstance().getReference().child("Producto");
+        bdReference=FirebaseDatabase.getInstance().getReference();
         View root= binding.getRoot();
         componentes(root);
 
@@ -129,6 +129,8 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
     private void ButtonComponent(View root) {
         MoButton = root.findViewById(R.id.MODbtnModifica);
         MoButton.setOnClickListener((View.OnClickListener)this);
+        btnbuscar = root.findViewById(R.id.MODbtnBuscar);
+        btnbuscar.setOnClickListener(this);
 
 
         ibtnFecha = root.findViewById(R.id.MODibtnFecha);
@@ -139,6 +141,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         etNombre = root.findViewById(R.id.MODetProductoNom);
         etCantidad = root.findViewById(R.id.MODetCantidad);
         etPrecio = root.findViewById(R.id.MODetPrecio);
+        etId = root.findViewById(R.id.MODetId);
 
         etFechaCad = root.findViewById(R.id.MODetFecha);
         extFechaCad = root.findViewById(R.id.MODextID);
@@ -264,8 +267,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.MODbtnBuscar:
-
-                bdReference.child("Producto").child(etId.getText().toString()).addValueEventListener(new ValueEventListener() {
+                bdReference.child("Producto").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()){

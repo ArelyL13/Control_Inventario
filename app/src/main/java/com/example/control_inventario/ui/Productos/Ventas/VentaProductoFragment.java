@@ -54,7 +54,7 @@ public class VentaProductoFragment extends Fragment {
         View root = inflater.inflate(R.layout.venta_producto_fragment, container, false);
 
         dbReference = FirebaseDatabase.getInstance().getReference();
-
+        mAuth = FirebaseAuth.getInstance();
         tvNombre = root.findViewById(R.id.VENTAtvNombre);
         tvPrecio = root.findViewById(R.id.VENTAtvNPrecio);
         etCantidad = root.findViewById(R.id.VENTAedCantidad);
