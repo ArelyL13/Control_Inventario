@@ -95,7 +95,7 @@ public class VentaProductoFragment extends Fragment {
                 venta.setIdVenta(UUID.randomUUID().toString());
                 venta.setIdUsuario(mAuth.getUid());
                 venta.setNombre(prod.getNombre());
-                venta.setCantidad(prod.getCantidad());
+                venta.setCantidad(etCantidad.getText().toString());
                 venta.setPrecio(prod.getPrecio());
 
                 dbReference.child("Venta").child(venta.getIdUsuario()).child(venta.getIdVenta()).setValue(venta);
