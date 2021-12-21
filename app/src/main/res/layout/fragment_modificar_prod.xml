@@ -43,13 +43,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-
-                    android:hint="id"
+                    android:hint="Nombre"
                     android:paddingTop="10dp"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@color/orange"
                     app:endIconMode="clear_text"
-                    app:helperText="id"
+                    app:helperText="Nombre"
                     app:helperTextEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -154,11 +153,6 @@
                         android:text="No Perecedero"/>
                 </RadioGroup>
             </LinearLayout>
-
-
-
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,9 +179,7 @@
                     app:srcCompat="@drawable/ic_menu_gallery"
                     android:contentDescription="@string/descripcion"
                     android:layout_weight="1"/>
-
             </LinearLayout>
-
             <Button
                 android:id="@+id/MODbtnModifica"
                 android:layout_width="150dp"

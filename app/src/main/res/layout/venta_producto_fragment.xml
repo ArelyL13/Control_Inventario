@@ -45,14 +45,14 @@
               app:helperTextEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/MODetId"
+                android:id="@+id/VENTAetId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
           </com.google.android.material.textfield.TextInputLayout>
 
           <Button
-              android:id="@+id/MODbtnBuscar"
+              android:id="@+id/VENTAbtnBuscar"
               android:layout_width="150dp"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
@@ -61,29 +61,51 @@
               android:textColor="@color/white"
               />
         </LinearLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/cardview_default_radius"
-            android:hint="Ingresa el nombre del producto"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/orange"
-            app:endIconMode="clear_text"
-            android:layout_marginTop="60dp"
-            app:helperText="Producto"
-            app:helperTextEnabled="true"
-            android:inputType="none">
+            android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/VentaProductoNom"
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Nombre: "
+              android:textSize="30dp"/>
+
+          <TextView
+              android:id="@+id/VENTAtvNombre"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Nombre:"
+              android:textSize="30dp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="horizontal">
 
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Precio: "
+              android:textSize="30dp"/>
 
+          <TextView
+              android:id="@+id/VENTAtvNPrecio"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Precio:"
+              android:textSize="30dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingrese la cantidad:"
+            android:textSize="30dp"
+            android:gravity="center"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -100,7 +122,7 @@
             >
 
           <com.google.android.material.textfield.TextInputEditText
-              android:id="@+id/VentCantidad"
+              android:id="@+id/VENTAedCantidad"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:inputType="text"
@@ -126,21 +148,19 @@
           <TextView
               android:layout_gravity="center"
               android:textSize="30dp"
-              android:id="@+id/VentasTotal"
+              android:id="@+id/VentatvTotal"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="Total"
               android:gravity="center"
               />
         </LinearLayout>
-
-
         <Button
             android:id="@+id/VentabtnGuardar"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Guardar"
+            android:text="Vender"
             android:textColor="@color/white"
             android:textSize="18sp"/>
       </LinearLayout>

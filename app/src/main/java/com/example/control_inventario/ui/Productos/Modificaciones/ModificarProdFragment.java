@@ -308,7 +308,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         }
     }
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
     }
 

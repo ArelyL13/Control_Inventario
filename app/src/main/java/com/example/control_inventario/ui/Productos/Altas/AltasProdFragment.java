@@ -48,11 +48,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,10 +82,10 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     public static String currentPhotoPath,img="", tamanio, tipSoft, urgencia;
     public static final int Request_TAKE_PHOTO = 1;
 
-
     DatePickerDialog dpd;
     Calendar c;
     private static int anio,mes,dia;
+//    private Boolean repetido ;
 
     DatabaseReference dbReference;
     FirebaseAuth mAuth;
@@ -98,9 +102,6 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         View root= binding.getRoot();
         componentes(root);
 
-
-
-
         return root;
     }
     private void componentes(View root){
@@ -110,6 +111,8 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         ivFoto.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
         dbReference = FirebaseDatabase.getInstance().getReference();
+
+  //      repetido = false;
 
 
         etFechaCad.setVisibility(View.GONE);
@@ -150,19 +153,18 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ALTbtnGuardar:
-
                 if (validarCampos()){
+                    //Toast.makeText(getContext(), "Repetido ant if "+String.valueOf(repetido), Toast.LENGTH_SHORT).show();
+
                     //variables para subir imagen
                     StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
                     StorageReference file_name = folder.child("file"+photoUri.getLastPathSegment());
-
                     //metodo para subir imagen
                     file_name.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             //proceso
                             Toast.makeText(getContext(), "Subiendo", Toast.LENGTH_SHORT).show();
-
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -187,36 +189,30 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                                     //llenado de campos
                                     String imagen = uri.toString();
                                     Producto p = new Producto();
-
                                     //extraer usuario
-
                                     //Bundle extras = getActivity().getIntent().getExtras();
                                     //String us = null;
+                                    p.setId(UUID.randomUUID().toString());
+                                    p.setNombre(etNombre.getText().toString());
+                                    p.setCantidad(etCantidad.getText().toString());
+                                    p.setPrecio(etPrecio.getText().toString());
+                                    if(radPerecedero.isChecked()){
+                                        p.setTipo("Perecedero");
+                                        p.setCaducidad(etFechaCad.getText().toString().trim());
 
-                                    if (true){
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        p.setId(UUID.randomUUID().toString());
-                                        p.setNombre(etNombre.getText().toString());
-                                        p.setCantidad(etCantidad.getText().toString());
-                                        p.setPrecio(etPrecio.getText().toString());
-                                        if(radPerecedero.isChecked()){
-                                            p.setTipo("Perecedero");
-                                            p.setCaducidad(etFechaCad.getText().toString().trim());
-
-                                        }else{
-                                            p.setTipo("No Perecedero");
-                                            p.setCaducidad("No Aplica");
-                                        }
-                                        //p.setCaducidad(etFechaCad.getText().toString().trim());
-                                        p.setFoto(imagen);
-                                        Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
-                                        dbReference.child("Producto").child(p.getId()).setValue(p);
-                                        Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
-                                        limpiar();
                                     }else{
-                                        Toast.makeText(getContext(), "No entro usuario", Toast.LENGTH_SHORT).show();
+                                        p.setTipo("No Perecedero");
+                                        p.setCaducidad("No Aplica");
                                     }
+                                    //p.setCaducidad(etFechaCad.getText().toString().trim());
+                                    p.setFoto(imagen);
+                                    Toast.makeText(getContext(), "Subieron Archivos", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(),  uri.toString(), Toast.LENGTH_SHORT).show();
+                                    dbReference.child("Producto").child(p.getId()).setValue(p);
+                                    Toast.makeText(getContext(), "Producto Creado", Toast.LENGTH_SHORT).show();
+                                    limpiar();
+
+
                                     //crear usuario
 
                                 }
@@ -224,8 +220,10 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
                         }
                     });
                 }else{
-                    Toast.makeText(getContext(), "llena todos los campos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Nombre Repetido", Toast.LENGTH_SHORT).show();
+
                 }
+
 
                 break;
 
@@ -358,4 +356,29 @@ public class AltasProdFragment extends Fragment implements View.OnClickListener,
         etPrecio.setText("");
 
     }
+
+    public boolean validaNombres(){
+        final boolean[] existe = {false};
+        dbReference.child("Producto").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Producto p = snapshot.getValue(Producto.class);
+                    if(etNombre.getText().toString().equals(p.getNombre())){
+                        existe[0] = true;
+                        //Toast.makeText(getContext(), "Encontro repetido"+String.valueOf(repetido), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "nombre:"+etNombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "nombre:"+ p.getNombre(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                existe[0] = false;
+            }
+        });
+        return existe[0];
+    }
+
 }

@@ -82,11 +82,10 @@ public class UsuariosFragment extends Fragment implements View.OnClickListener {
         View root= binding.getRoot();
         componentes(root);
         buscarUsuario();
-
         return root;
     }
 
-    private void buscarUsuario() {
+    private void buscarUsuario(){
         dbReference.child("Usuario").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -109,8 +108,6 @@ public class UsuariosFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-
-
     }
 
     private void componentes(View root){

@@ -23,8 +23,6 @@
             android:textSize="30dp"
             android:gravity="center"/>
 
-
-
             <ImageView
                 android:id="@+id/PALTivFoto"
                 android:layout_width="196dp"

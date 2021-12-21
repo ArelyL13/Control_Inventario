@@ -66,25 +66,19 @@ public class BajasProdFragment extends Fragment {
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bdReference.child("Producto").child(etid.getText().toString()).addValueEventListener(new ValueEventListener() {
+                bdReference.child("Producto").addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        prod = snapshot.getValue(Producto.class);
-                        if (prod != null){
-                            tvnombre.setText(prod.getNombre());
-                            tvcantidad.setText(prod.getCantidad());
-                            tvprecio.setText(prod.getPrecio());
-
-                            if(prod.getTipo().equals("Perecedero")){
-                                tvFecha.setText(prod.getCaducidad());
-                                tvFecha.setVisibility(View.VISIBLE);
-
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            Producto p = snapshot.getValue(Producto.class);
+                            if(etid.getText().toString().equals(p.getNombre())){
+                                prod = snapshot.getValue(Producto.class);
+                                tvnombre.setText(prod.getNombre());
+                                tvcantidad.setText(prod.getCantidad());
+                                tvprecio.setText(prod.getPrecio());
+                                Picasso.get().load( prod.getFoto() ).into( ivfoto );
                             }
-                            Picasso.get().load( prod.getFoto() ).into( ivfoto );
-                            //Toast.makeText(getContext(), prod.getFoto(), Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {

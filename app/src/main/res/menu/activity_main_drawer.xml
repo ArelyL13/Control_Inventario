@@ -34,5 +34,10 @@
             android:icon="@drawable/ic_venta"
             android:title="Usuario" />
 
+        <item
+            android:id="@+id/nav_Venta"
+            android:icon="@drawable/ic_venta"
+            android:title="Venta" />
+
     </group>
 </menu>
