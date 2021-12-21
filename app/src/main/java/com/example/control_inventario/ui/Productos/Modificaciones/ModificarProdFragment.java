@@ -2,6 +2,7 @@ package com.example.control_inventario.ui.Productos.Modificaciones;
 
 import static android.app.Activity.RESULT_OK;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -35,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.control_inventario.Adaptadores.AdaptadorProducto;
 import com.example.control_inventario.Objetos.Producto;
 import com.example.control_inventario.Objetos.Usuario;
 import com.example.control_inventario.R;
@@ -86,7 +89,9 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
     FirebaseUser user;
     DatabaseReference bdReference;
     Producto prod;
-
+    SearchView searchView;
+    ArrayList<Producto>list;
+    RecyclerView rv;
 
 
     private ModificarProdViewModel mViewModel;
@@ -103,6 +108,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         // return inflater.inflate(R.layout.fragment_altas_prod, container, false);
         modViewModel= new ViewModelProvider(this).get(ModificarProdViewModel.class);
         binding= FragmentModificarProdBinding.inflate(inflater,container,false);
+        bdReference=FirebaseDatabase.getInstance().getReference().child("Producto");
         View root= binding.getRoot();
         componentes(root);
 
@@ -115,9 +121,6 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         ButtonComponent(root);
         MoButton.setOnClickListener(this);
         miImagenView.setOnClickListener(this);
-
-
-        bdReference = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
@@ -126,8 +129,8 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
     private void ButtonComponent(View root) {
         MoButton = root.findViewById(R.id.MODbtnModifica);
         MoButton.setOnClickListener((View.OnClickListener)this);
-        btnbuscar = root.findViewById(R.id.MODbtnBuscar);
-        btnbuscar.setOnClickListener(this);
+
+
         ibtnFecha = root.findViewById(R.id.MODibtnFecha);
         ibtnFecha.setOnClickListener(this);
     }
@@ -136,7 +139,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
         etNombre = root.findViewById(R.id.MODetProductoNom);
         etCantidad = root.findViewById(R.id.MODetCantidad);
         etPrecio = root.findViewById(R.id.MODetPrecio);
-        etId= root.findViewById(R.id.MODetId);
+
         etFechaCad = root.findViewById(R.id.MODetFecha);
         extFechaCad = root.findViewById(R.id.MODextID);
 
@@ -161,6 +164,7 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
 
                 if (validarCampos()) {
                     //variables para subir imagen
+                    //crear referencia  a Storage
                     StorageReference folder = FirebaseStorage.getInstance().getReference().child("user");
                     StorageReference file_name = folder.child("file" + photoUri.getLastPathSegment());
 
@@ -260,7 +264,8 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.MODbtnBuscar:
-                bdReference.child("Producto").child(user.getUid()).child(etId.getText().toString()).addValueEventListener(new ValueEventListener() {
+
+                bdReference.child("Producto").child(etId.getText().toString()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         prod = snapshot.getValue(Producto.class);
@@ -282,6 +287,14 @@ public class ModificarProdFragment extends Fragment implements View.OnClickListe
 
                     }
                 });
+
+
+
+
+
+
+
+
                 break;
             case R.id.MODradPerecedero:
                 activaFecha(true);
