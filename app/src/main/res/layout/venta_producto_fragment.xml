@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.Productos.Ventas.VentaProductoFragment">
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nueva venta"
+            android:textColor="@color/orange"
+            android:textSize="30dp"
+            android:gravity="center"/>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+          <com.google.android.material.textfield.TextInputLayout
+              style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+
+
+              android:hint="id"
+              android:paddingTop="10dp"
+              app:boxBackgroundMode="outline"
+              app:boxStrokeColor="@color/orange"
+              app:endIconMode="clear_text"
+              app:helperText="id"
+              app:helperTextEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/MODetId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+          </com.google.android.material.textfield.TextInputLayout>
+
+          <Button
+              android:id="@+id/MODbtnBuscar"
+              android:layout_width="150dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:text="Buscar"
+              android:backgroundTint="@color/azulM"
+              android:textColor="@color/white"
+              />
+        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/cardview_default_radius"
+            android:hint="Ingresa el nombre del producto"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/orange"
+            app:endIconMode="clear_text"
+            android:layout_marginTop="60dp"
+            app:helperText="Producto"
+            app:helperTextEnabled="true"
+            android:inputType="none">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/VentaProductoNom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/cardview_default_radius"
+            android:hint="Ingresa la cantidad"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/orange"
+            app:endIconMode="clear_text"
+            android:layout_marginTop="60dp"
+            app:helperText="Cantidad"
+            app:helperTextEnabled="true"
+            >
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/VentCantidad"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="text"
+              />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+          <TextView
+              android:layout_gravity="center"
+              android:textSize="30dp"
+              android:id="@+id/VentasTVTotal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Total: "
+              android:textColor="@color/black"
+              android:gravity="center"
+              />
+          <TextView
+              android:layout_gravity="center"
+              android:textSize="30dp"
+              android:id="@+id/VentasTotal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Total"
+              android:gravity="center"
+              />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/VentabtnGuardar"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Guardar"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+      </LinearLayout>
+
+
+
+  </ScrollView>
+
+</FrameLayout>
